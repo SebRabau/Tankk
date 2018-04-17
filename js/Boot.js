@@ -5,8 +5,8 @@ Tankk.Boot = function(){};
 Tankk.Boot.prototype = {
   preload: function() {
   	//assets used in the loading screen
-    this.load.image("logo", "assets/tankkLogo.png"); //Update Logo
-    this.load.image("preloadBar", "assets/preloadBar.png"); //Keep Bar
+    this.load.image("logo", "assets/tankkLogo.png");
+    this.load.image("preloadBar", "assets/preloadBar.png");
   },
   create: function() {
     this.game.stage.backgroundColor = "#fff";
