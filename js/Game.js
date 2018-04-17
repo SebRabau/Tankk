@@ -19,8 +19,13 @@ var explode;
 var blank;
 var bullet;*/
 
+var explosion;
+
 Tankk.Game.prototype = {
     create: function() {
+        //explosion = THESPRITE.animations.add("explode");
+        //to use: THESPRITE.animations.play("explode", 20, false);
+        
         /*this.map = this.game.add.tilemap("map");
         this.map.addTilesetImage("Floor", "tiles");      
         this.floor = this.map.createLayer("Floor");
