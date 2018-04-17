@@ -128,7 +128,7 @@ Tankk.Game.prototype = {
             ismoving = true
         }        
         if(this.cursors.down.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.S)) {
-            myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , -200, myPlayer.body.velocity);
+            myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , -130, myPlayer.body.velocity);
             //myTurret.position.setTo(blank.world.x, blank.world.y);
             ismoving = true
         }
