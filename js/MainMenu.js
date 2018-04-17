@@ -16,7 +16,7 @@ Tankk.MainMenu.prototype = {
 
         var logo = this.add.sprite(this.game.world.centerX, 100, "logo");
         logo.anchor.setTo(0.5);
-        
+                
         //Menu Music
         /*music = this.game.add.audio("MenuMusic");
         music.play("", 0, 0.7, true);*/
