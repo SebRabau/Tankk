@@ -111,6 +111,9 @@ Tankk.Game.prototype = {
         //reset player movement
         myPlayer.body.velocity.y = 0;
         myPlayer.body.velocity.x = 0;
+        
+        //reset turret location
+        myTurret.position.setTo(blank.world.x, blank.world.y);
 
         //Face pointer direction 
         myTurret.rotation = myGame.physics.arcade.angleToPointer(myPlayer) + 1.571; //Pi/2  
@@ -138,7 +141,7 @@ Tankk.Game.prototype = {
         else if(this.cursors.right.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.D)) {
             myPlayer.rotation += 0.05;
         }
-        myTurret.position.setTo(blank.world.x, blank.world.y)
+        
         //stop movement
         if(myPlayer.body.velocity.x == 0) { 
            ismoving = false;
