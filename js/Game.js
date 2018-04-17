@@ -21,6 +21,7 @@ var bullet;*/
 
 var tankIdle;
 var tankMove;
+var ismoving;
 
 Tankk.Game.prototype = {
     create: function() {
@@ -86,7 +87,7 @@ Tankk.Game.prototype = {
 
         //Audio
         tankIdle = myGame.add.audio("tankIdle");
-        tankIdle.play("", 0, 0.5, true);
+        tankIdle.play("", 0, 0.1, true);
         tankMove = myGame.add.audio("tankMove");
         /*
         music = myGame.add.audio("GameMusic");
@@ -123,18 +124,30 @@ Tankk.Game.prototype = {
         if(this.cursors.up.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.W)) {
             myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , 200, myPlayer.body.velocity);
             myTurret.position = myPlayer.position;
-            tankMove.play("", 0, 0.7, true);
-        }
+            ismoving = true
+        }        
         if(this.cursors.down.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.S)) {
             myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , -200, myPlayer.body.velocity);
             myTurret.position = myPlayer.position;
-            tankMove.play("", 0, 0.7, true);
+            ismoving = true
+        }
+        //if((this.cursors.up.isUp || myGame.input.keyboard.isUp(Phaser.Keyboard.W)) && (this.cursors.down.isUp || myGame.input.keyboard.isUp(Phaser.Keyboard.S))) {
+        
+        
+        if(myPlayer.body.velocity.x == 0) {
+           ismoving = false;
         }
         if(this.cursors.left.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.A)) {
             myPlayer.rotation -= 0.05;
         }
         else if(this.cursors.right.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.D)) {
             myPlayer.rotation += 0.05;
+        }
+        
+        if(ismoving) {
+            tankMove.play("", 0, 0.7, true, false);
+        } else {
+            tankMove.stop();
         }
 
         //Enemy movement
@@ -152,6 +165,8 @@ Tankk.Game.prototype = {
         myGame.physics.arcade.collide(myBullets, myEnemies, this.killEnemy, null, this);
         myGame.physics.arcade.collide(myBullets, this.walls, this.killBullet, null, this);
         myGame.physics.arcade.overlap(myPlayer, myPills, this.collectPill, null, this);*/
+        
+        
     },
     createObjects: function() {
         /*this.pills = this.game.add.physicsGroup();    
