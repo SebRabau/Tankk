@@ -18,7 +18,7 @@ Tankk.Preload.prototype = {
         this.load.spritesheet("menuButtons", "assets/menuButtons.png", 200, 50, 12);
         this.load.spritesheet("explosion", "assets/Animations/Explosion2/1Single.png", 452, 512, 8);
         this.load.spritesheet("player", "assets/tanks.png", 150, 200, 9);
-        
+        this.load.image("turret", "");
         
         //Load Audio (Formatting shown below)
         //this.load.audio("MenuMusic", "assets/Chiptune_Throne_Room.mp3");

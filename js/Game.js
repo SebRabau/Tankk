@@ -94,6 +94,7 @@ Tankk.Game.prototype = {
     update: function() {
         //Update local variables
         myPlayer = this.player;
+        myTurret = this.turret;
         /*myEnemies = this.enemies;
         myPills = this.pills;
         myGame.world.bringToTop(healthBar);*/  
@@ -103,7 +104,7 @@ Tankk.Game.prototype = {
         myPlayer.body.velocity.x = 0;
 
         //Face pointer direction 
-       // myPlayer.rotation = myGame.physics.arcade.angleToPointer(myPlayer) + 1.571; //Pi/2  
+        myTurret.rotation = myGame.physics.arcade.angleToPointer(myPlayer) + 1.571; //Pi/2  
 
         //Mouse/Touch input
         if(myGame.input.mousePointer.isDown || myGame.input.activePointer.isDown) {
@@ -114,9 +115,11 @@ Tankk.Game.prototype = {
         //Keyboard input
         if(this.cursors.up.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.W)) {
             myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , 200, myPlayer.body.velocity);
+            myTurret.position = myPlayer.position;
         }
         if(this.cursors.down.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.S)) {
             myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , -200, myPlayer.body.velocity);
+            myTurret.position = myPlayer.position;
         }
         if(this.cursors.left.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.A)) {
             myPlayer.rotation -= 0.05;
@@ -247,6 +250,9 @@ Tankk.Game.prototype = {
         this.game.camera.follow(this.player); 
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
+        
+        this.turret = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, "turret");
+        this.turret.anchor.setTo(0.5);
     },
     createBullets: function() {
         /*this.bullets = this.game.add.physicsGroup();
