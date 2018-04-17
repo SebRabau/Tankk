@@ -17,6 +17,7 @@ Tankk.Preload.prototype = {
         //this.load.spritesheet("objectTiles", "maps/tiles.png", 32, 32, 48);
         this.load.spritesheet("menuButtons", "assets/menuButtons.png", 200, 50, 12);
         this.load.spritesheet("explosion", "assets/Animations/Explosion2/1Single.png", 452, 512, 8);
+        this.load.spritesheet("player", "assets/tanks.png", 150, 200, 9);
         
         
         //Load Audio (Formatting shown below)
