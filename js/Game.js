@@ -113,7 +113,10 @@ Tankk.Game.prototype = {
 
         //Keyboard input
         if(this.cursors.up.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.W)) {
-            myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , 100, myPlayer.body.velocity);
+            myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , 200, myPlayer.body.velocity);
+        }
+        if(this.cursors.down.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.S)) {
+            myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , -200, myPlayer.body.velocity);
         }
         if(this.cursors.left.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.A)) {
             myPlayer.rotation -= 0.05;
@@ -233,6 +236,8 @@ Tankk.Game.prototype = {
         this.player.frame = 0;
         this.game.physics.arcade.enable(this.player);
         this.player.body.collideWorldBounds = true;
+        
+        this.player.scale.setTo(0.5);
 
         this.player.anchor.setTo(0.5);
         this.player.body.allowRotation = false;
