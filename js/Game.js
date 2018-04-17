@@ -19,13 +19,8 @@ var explode;
 var blank;
 var bullet;*/
 
-var explosion;
-
 Tankk.Game.prototype = {
     create: function() {
-        //explosion = THESPRITE.animations.add("explode");
-        //to use: THESPRITE.animations.play("explode", 20, false);
-        
         /*this.map = this.game.add.tilemap("map");
         this.map.addTilesetImage("Floor", "tiles");      
         this.floor = this.map.createLayer("Floor");
@@ -43,9 +38,9 @@ Tankk.Game.prototype = {
         score = 0;
 
         this.createObjects();
-        this.createBullets();
+        this.createBullets();*/
         this.createPlayer();        
-        this.createEnemies(waveE); 
+        /*this.createEnemies(waveE); 
 
         //UI
         healthBar = this.game.add.sprite(this.game.width/2, this.game.height - 70, "healthBar");
@@ -75,11 +70,11 @@ Tankk.Game.prototype = {
             align: "center"
         });
         enemyText.anchor.setTo(0.5);
-        enemyText.fixedToCamera = true;
+        enemyText.fixedToCamera = true;*/
 
         //create local variables
         myGame = this.game; 
-        myBullets = this.bullets;
+        /*myBullets = this.bullets;
 
         blank = this.game.make.sprite(0, -45, "blank");
         blank.anchor.setTo(0.5);
@@ -97,18 +92,18 @@ Tankk.Game.prototype = {
         explode = myGame.add.audio("explode");*/
     },
     update: function() {
-        /*//Update local variables
+        //Update local variables
         myPlayer = this.player;
-        myEnemies = this.enemies;
+        /*myEnemies = this.enemies;
         myPills = this.pills;
-        myGame.world.bringToTop(healthBar);  
+        myGame.world.bringToTop(healthBar);*/  
 
         //reset player movement
         myPlayer.body.velocity.y = 0;
         myPlayer.body.velocity.x = 0;
 
         //Face pointer direction 
-        myPlayer.rotation = myGame.physics.arcade.angleToPointer(myPlayer) + 1.571; //Pi/2  
+       // myPlayer.rotation = myGame.physics.arcade.angleToPointer(myPlayer) + 1.571; //Pi/2  
 
         //Mouse/Touch input
         if(myGame.input.mousePointer.isDown || myGame.input.activePointer.isDown) {
@@ -118,20 +113,17 @@ Tankk.Game.prototype = {
 
         //Keyboard input
         if(this.cursors.up.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.W)) {
-            myPlayer.body.velocity.y -= 150;
-        }
-        else if(this.cursors.down.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.S)) {
-            myPlayer.body.velocity.y += 150;
+            myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , 100, myPlayer.body.velocity);
         }
         if(this.cursors.left.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.A)) {
-            myPlayer.body.velocity.x -= 150;
+            myPlayer.rotation -= 0.05;
         }
         else if(this.cursors.right.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.D)) {
-            myPlayer.body.velocity.x += 150;
+            myPlayer.rotation += 0.05;
         }
 
         //Enemy movement
-        myEnemies.forEach(function(enemy) {
+        /*myEnemies.forEach(function(enemy) {
             myGame.physics.arcade.moveToObject(enemy, myPlayer, enemy.speed);
             enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 1.571; // Pi/2
         });
@@ -237,7 +229,8 @@ Tankk.Game.prototype = {
         /*bullet.kill();*/
     },
     createPlayer: function() {
-        /*this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, "player");
+        this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, "player");
+        this.player.frame = 0;
         this.game.physics.arcade.enable(this.player);
         this.player.body.collideWorldBounds = true;
 
@@ -248,7 +241,7 @@ Tankk.Game.prototype = {
 
         this.game.camera.follow(this.player); 
 
-        this.cursors = this.game.input.keyboard.createCursorKeys();*/
+        this.cursors = this.game.input.keyboard.createCursorKeys();
     },
     createBullets: function() {
         /*this.bullets = this.game.add.physicsGroup();
@@ -333,7 +326,6 @@ Tankk.Game.prototype = {
             healthBar.frame = 8;
         } else if(myPlayer.health == 10) {
             healthBar.frame = 9;
-        } 
-    }*/
-}
-}
+        } */
+    }
+};
