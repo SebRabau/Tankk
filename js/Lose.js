@@ -7,7 +7,7 @@ Tankk.Lose.prototype = {
         var splash = this.add.sprite(window.innerWidth/2, window.innerHeight/2 - 200, "lose"); //new lose screen required
         splash.anchor.setTo(0.5, 0.5);
         
-        /*var loseText = this.add.text(window.innerWidth/2, window.innerHeight/2, "Your final score: "+score, {
+        var loseText = this.add.text(window.innerWidth/2, window.innerHeight/2, "Your final score: "+score, {
             font: "30px Arial",
             fill: "#000",
             align: "center"
@@ -26,6 +26,5 @@ Tankk.Lose.prototype = {
             this.state.start("MainMenu", true, false, score);            
         }, this, 1, 0, 2, 0);
         restartButton.anchor.setTo(0.5);
-    }*/
-}
+    }
 }
