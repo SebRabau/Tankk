@@ -22,6 +22,7 @@ var bullet;*/
 var tankIdle;
 var tankMove;
 var ismoving;
+var blank;
 
 Tankk.Game.prototype = {
     create: function() {
@@ -78,11 +79,11 @@ Tankk.Game.prototype = {
 
         //create local variables
         myGame = this.game; 
-        /*myBullets = this.bullets;
+        /*myBullets = this.bullets;*/
 
-        blank = this.game.make.sprite(0, -45, "blank");
+        blank = this.game.make.sprite(0, 30, "blank");
         blank.anchor.setTo(0.5);
-        this.player.addChild(blank);*/
+        this.player.addChild(blank);
 
 
         //Audio
@@ -123,19 +124,13 @@ Tankk.Game.prototype = {
         //Keyboard input
         if(this.cursors.up.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.W)) {
             myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , 200, myPlayer.body.velocity);
-            myTurret.position = myPlayer.position;
+            //myTurret.position = myPlayer.position;
             ismoving = true
         }        
         if(this.cursors.down.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.S)) {
             myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , -200, myPlayer.body.velocity);
-            myTurret.position = myPlayer.position;
+            //myTurret.position.setTo(blank.world.x, blank.world.y);
             ismoving = true
-        }
-        //if((this.cursors.up.isUp || myGame.input.keyboard.isUp(Phaser.Keyboard.W)) && (this.cursors.down.isUp || myGame.input.keyboard.isUp(Phaser.Keyboard.S))) {
-        
-        
-        if(myPlayer.body.velocity.x == 0) {
-           ismoving = false;
         }
         if(this.cursors.left.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.A)) {
             myPlayer.rotation -= 0.05;
@@ -143,8 +138,14 @@ Tankk.Game.prototype = {
         else if(this.cursors.right.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.D)) {
             myPlayer.rotation += 0.05;
         }
+        myTurret.position.setTo(blank.world.x, blank.world.y)
+        //stop movement
+        if(myPlayer.body.velocity.x == 0) { 
+           ismoving = false;
+        }
         
-        if(ismoving) {
+        //play tank sounds
+        if(ismoving) { 
             tankMove.play("", 0, 0.7, true, false);
         } else {
             tankMove.stop();
@@ -263,10 +264,8 @@ Tankk.Game.prototype = {
         this.player.frame = 0;
         this.game.physics.arcade.enable(this.player);
         this.player.body.collideWorldBounds = true;
-        
-        this.player.scale.setTo(0.5);
 
-        this.player.anchor.setTo(0.5);
+        this.player.anchor.setTo(0.5, 0);
         this.player.body.allowRotation = false;
 
         this.player.health = 100;
