@@ -330,4 +330,5 @@ Tankk.Game.prototype = {
             healthBar.frame = 9;
         } 
     }*/
-};
+}
+}

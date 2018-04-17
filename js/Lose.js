@@ -28,3 +28,4 @@ Tankk.Lose.prototype = {
         restartButton.anchor.setTo(0.5);
     }*/
 }
+}
