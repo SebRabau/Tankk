@@ -22,6 +22,8 @@ Tankk.Preload.prototype = {
         
         //Load Audio (Formatting shown below)
         //this.load.audio("MenuMusic", "assets/Chiptune_Throne_Room.mp3");
+        this.load.audio("tankIdle", "assets/Audio/tankIdle.mp3");
+        this.load.audio("tankMove", "assets/Audio/tankMove.mp3");
     },
     create: function() {        
         this.state.start("MainMenu");

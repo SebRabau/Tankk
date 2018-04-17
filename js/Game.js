@@ -19,6 +19,9 @@ var explode;
 var blank;
 var bullet;*/
 
+var tankIdle;
+var tankMove;
+
 Tankk.Game.prototype = {
     create: function() {
         /*this.map = this.game.add.tilemap("map");
@@ -78,10 +81,14 @@ Tankk.Game.prototype = {
 
         blank = this.game.make.sprite(0, -45, "blank");
         blank.anchor.setTo(0.5);
-        this.player.addChild(blank);
+        this.player.addChild(blank);*/
 
 
         //Audio
+        tankIdle = myGame.add.audio("tankIdle");
+        tankIdle.play("", 0, 0.5, true);
+        tankMove = myGame.add.audio("tankMove");
+        /*
         music = myGame.add.audio("GameMusic");
         music.play("", 0, 0.7, true);
 
@@ -116,10 +123,12 @@ Tankk.Game.prototype = {
         if(this.cursors.up.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.W)) {
             myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , 200, myPlayer.body.velocity);
             myTurret.position = myPlayer.position;
+            tankMove.play("", 0, 0.7, true);
         }
         if(this.cursors.down.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.S)) {
             myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , -200, myPlayer.body.velocity);
             myTurret.position = myPlayer.position;
+            tankMove.play("", 0, 0.7, true);
         }
         if(this.cursors.left.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.A)) {
             myPlayer.rotation -= 0.05;
