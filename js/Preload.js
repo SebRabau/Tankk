@@ -4,7 +4,7 @@ Tankk.Preload = function(){};
 
 Tankk.Preload.prototype = {
     preload: function() {
-        this.splash = this.add.sprite(this.game.world.centerX, 50, "logo"); //Update Logo
+        this.splash = this.add.sprite(this.game.world.centerX, 50, "logo");
         this.splash.anchor.setTo(0.5);
         
         this.preloadBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 128, "preloadBar"); 
