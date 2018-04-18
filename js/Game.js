@@ -111,12 +111,9 @@ Tankk.Game.prototype = {
         //reset player movement
         myPlayer.body.velocity.y = 0;
         myPlayer.body.velocity.x = 0;
-        
-        //reset turret location
-        myTurret.position.setTo(blank.world.x, blank.world.y);
 
         //Face pointer direction 
-        myTurret.rotation = myGame.physics.arcade.angleToPointer(myPlayer) + 1.571; //Pi/2  
+        myTurret.rotation = myGame.physics.arcade.angleToPointer(myPlayer) + 1.571 - myPlayer.rotation; //Pi/2  
 
         //Mouse/Touch input
         if(myGame.input.mousePointer.isDown || myGame.input.activePointer.isDown) {
@@ -268,7 +265,7 @@ Tankk.Game.prototype = {
         this.game.physics.arcade.enable(this.player);
         this.player.body.collideWorldBounds = true;
 
-        this.player.anchor.setTo(0.5, 0);
+        this.player.anchor.setTo(0.5);
         this.player.body.allowRotation = false;
 
         this.player.health = 100;
@@ -277,8 +274,9 @@ Tankk.Game.prototype = {
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
         
-        this.turret = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, "turret");
+        this.turret = this.game.make.sprite(0, -13, "turret");
         this.turret.anchor.setTo(0.5);
+        this.player.addChild(this.turret);
     },
     createBullets: function() {
         /*this.bullets = this.game.add.physicsGroup();
