@@ -81,11 +81,6 @@ Tankk.Game.prototype = {
         myGame = this.game; 
         /*myBullets = this.bullets;*/
 
-        blank = this.game.make.sprite(0, 30, "blank");
-        blank.anchor.setTo(0.5);
-        this.player.addChild(blank);
-
-
         //Audio
         tankIdle = myGame.add.audio("tankIdle");
         tankIdle.play("", 0, 0.1, true);
@@ -146,7 +141,7 @@ Tankk.Game.prototype = {
         
         //play tank sounds
         if(ismoving) { 
-            tankMove.play("", 0, 0.7, true, false);
+            tankMove.play("", 0, 0.5, true, false);
         } else {
             tankMove.stop();
         }
@@ -277,6 +272,10 @@ Tankk.Game.prototype = {
         this.turret = this.game.make.sprite(0, -13, "turret");
         this.turret.anchor.setTo(0.5);
         this.player.addChild(this.turret);
+        
+        blank = this.game.make.sprite(0, -95, "blank"); //Spawn location for bullets
+        blank.anchor.setTo(0.5);
+        this.turret.addChild(blank);
     },
     createBullets: function() {
         /*this.bullets = this.game.add.physicsGroup();

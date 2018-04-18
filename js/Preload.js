@@ -19,12 +19,14 @@ Tankk.Preload.prototype = {
         this.load.spritesheet("explosion", "assets/Animations/Explosion2/1Single.png", 452, 512, 8);
         this.load.image("player", "assets/Tanks/ACS/Source/ACS_Base.png");
         this.load.image("turret", "assets/Tanks/ACS/Source/ACS_Tower.png");
-        this.load.image("blank", "assets/blank.png");
+        this.load.image("blank", ""/*assets/blank.png*/);
         
         //Load Audio (Formatting shown below)
         //this.load.audio("MenuMusic", "assets/Chiptune_Throne_Room.mp3");
         this.load.audio("tankIdle", "assets/Audio/tankIdle.mp3");
         this.load.audio("tankMove", "assets/Audio/tankMove.mp3");
+        this.load.audio("EnemyExplode", "assets/Audio/EnemyExplosion.mp3");
+        this.load.audio("PlayerExplode", "assets/Audio/PlayerExplosion.mp3");
     },
     create: function() {        
         this.state.start("MainMenu");
