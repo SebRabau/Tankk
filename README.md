@@ -12,3 +12,4 @@ Phaser tank game in 3-man group with Leandro Santos, Joashua Ruane and Myself
 * Enemy explosion - https://www.zapsplat.com/music/explosion-metal-debris/
 * Dirt sound - https://www.zapsplat.com/music/car-wheels-roll-with-engine-off-on-dirt-track-short-distance-then-stop-2/
 * Engine sound - https://www.zapsplat.com/music/car-1950-mercury-255-ci-flathead-engine-idle/
+* Tank fire sound - https://www.zapsplat.com/music/grenade-explosion-debris-blast/

@@ -25,8 +25,9 @@ Tankk.Preload.prototype = {
         //this.load.audio("MenuMusic", "assets/Chiptune_Throne_Room.mp3");
         this.load.audio("tankIdle", "assets/Audio/tankIdle.mp3");
         this.load.audio("tankMove", "assets/Audio/tankMove.mp3");
-        this.load.audio("EnemyExplode", "assets/Audio/EnemyExplosion.mp3");
-        this.load.audio("PlayerExplode", "assets/Audio/PlayerExplosion.mp3");
+        this.load.audio("enemyExplode", "assets/Audio/EnemyExplosion.mp3");
+        this.load.audio("playerExplode", "assets/Audio/PlayerExplosion.mp3");
+        this.load.audio("tankFire", "assets/Audio/TankFire.mp3");
     },
     create: function() {        
         this.state.start("MainMenu");

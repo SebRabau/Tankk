@@ -21,6 +21,9 @@ var bullet;*/
 
 var tankIdle;
 var tankMove;
+var tankFire;
+var enemyExplode;
+var playerExplode;
 var ismoving;
 var blank;
 
@@ -85,6 +88,9 @@ Tankk.Game.prototype = {
         tankIdle = myGame.add.audio("tankIdle");
         tankIdle.play("", 0, 0.1, true);
         tankMove = myGame.add.audio("tankMove");
+        tankFire = myGame.add.audio("tankFire");
+        playerExplode = myGame.add.audio("playerExplode");
+        enemyExplode = myGame.add.audio("enemyExplode");
         /*
         music = myGame.add.audio("GameMusic");
         music.play("", 0, 0.7, true);
