@@ -2,9 +2,9 @@ var Tankk = Tankk || {};
 
 Tankk.Game = function(){};
 
-/*var fireRate = 100;
+var fireRate = 500;
 var nextFire = 0;
-var healthBar;
+/*var healthBar;
 var waveN;
 var waveE;
 var enemyCount;
@@ -16,8 +16,8 @@ var loseLife;
 var shoot;
 var splat;
 var explode;
-var blank;
-var bullet;*/
+var blank;*/
+var bullet;
 
 var tankIdle;
 var tankMove;
@@ -45,8 +45,8 @@ Tankk.Game.prototype = {
         enemyCount = waveE;
         score = 0;
 
-        this.createObjects();
-        this.createBullets();*/
+        this.createObjects();*/
+        this.createBullets();
         this.createPlayer();        
         /*this.createEnemies(waveE); 
 
@@ -284,7 +284,7 @@ Tankk.Game.prototype = {
         this.turret.addChild(blank);
     },
     createBullets: function() {
-        /*this.bullets = this.game.add.physicsGroup();
+        this.bullets = this.game.add.physicsGroup();
         this.bullets.enableBody = true;
         this.bullets.physicsbodyType = Phaser.Physics.ARCADE;
 
@@ -292,7 +292,7 @@ Tankk.Game.prototype = {
         this.bullets.setAll("checkWorldBounds", true);
         this.bullets.setAll("outOfBoundsKill", true);
         this.bullets.setAll("anchor.x", 0.5);
-        this.bullets.setAll("anchor.y", 0.5);*/
+        this.bullets.setAll("anchor.y", 0.5);
     },
     createEnemies: function(n) {
         /*this.enemies = this.game.add.group();
@@ -314,8 +314,8 @@ Tankk.Game.prototype = {
         });*/
     },
     fire:  function() {           
-        /*if(myGame.time.now > nextFire) {
-            shoot.play("", 0, 0.3);
+        if(myGame.time.now > nextFire) {
+            tankFire.play("", 0, 0.3);
             nextFire = myGame.time.now + fireRate;
 
             var bullet = this.bullets.getFirstDead();
@@ -323,7 +323,7 @@ Tankk.Game.prototype = {
             bullet.reset(blank.world.x, blank.world.y);
             bullet.rotation = myGame.physics.arcade.angleToPointer(bullet) + 1.571; //Pi/2
             myGame.physics.arcade.moveToPointer(bullet, 500);
-        }*/
+        }
     },
     explode: function(target) {
         /*var emitter = this.game.add.emitter(target.x, target.y, 100);
