@@ -117,20 +117,17 @@ Tankk.Game.prototype = {
         myTurret.rotation = myGame.physics.arcade.angleToPointer(myPlayer) + 1.571 - myPlayer.rotation; //Pi/2  
 
         //Mouse/Touch input
-        if(myGame.input.mousePointer.isDown || myGame.input.activePointer.isDown) {
-            //myGame.physics.arcade.moveToPointer(myPlayer, -150); //Un-Comment this to shoot with pointer    
+        if(myGame.input.mousePointer.isDown || myGame.input.activePointer.isDown) {   
             this.fire();
         }
 
         //Keyboard input
         if(this.cursors.up.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.W)) {
             myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , 200, myPlayer.body.velocity);
-            //myTurret.position = myPlayer.position;
             ismoving = true
         }        
         if(this.cursors.down.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.S)) {
             myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , -130, myPlayer.body.velocity);
-            //myTurret.position.setTo(blank.world.x, blank.world.y);
             ismoving = true
         }
         if(this.cursors.left.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.A)) {
@@ -318,7 +315,7 @@ Tankk.Game.prototype = {
             tankFire.play("", 0, 0.3);
             nextFire = myGame.time.now + fireRate;
 
-            var bullet = this.bullets.getFirstDead();
+            bullet = this.bullets.getFirstDead();
 
             bullet.reset(blank.world.x, blank.world.y);
             bullet.rotation = myGame.physics.arcade.angleToPointer(bullet) + 1.571; //Pi/2
