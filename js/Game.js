@@ -2,7 +2,7 @@ var Tankk = Tankk || {};
 
 Tankk.Game = function(){};
 
-var fireRate = 500;
+var fireRate = 800;
 var nextFire = 0;
 /*var healthBar;
 var waveN;
@@ -319,7 +319,7 @@ Tankk.Game.prototype = {
 
             bullet.reset(blank.world.x, blank.world.y);
             bullet.rotation = myGame.physics.arcade.angleToPointer(bullet) + 1.571; //Pi/2
-            myGame.physics.arcade.moveToPointer(bullet, 500);
+            myGame.physics.arcade.moveToPointer(bullet, 1500);
         }
     },
     explode: function(target) {
