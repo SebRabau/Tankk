@@ -117,7 +117,7 @@ Tankk.Game.prototype = {
         myTurret.rotation = myGame.physics.arcade.angleToPointer(myPlayer) + 1.571 - myPlayer.rotation; //Pi/2  
 
         //Mouse/Touch input
-        if(myGame.input.mousePointer.isDown || myGame.input.activePointer.isDown) {   
+        if((myGame.input.mousePointer.isDown || myGame.input.activePointer.isDown) && (myGame.physics.arcade.distanceBetween(myGame.input.activePointer, myPlayer) > 120)) {   
             this.fire();
         }
 
