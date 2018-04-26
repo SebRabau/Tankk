@@ -62,22 +62,38 @@
  "renderorder":"right-down",
  "tiledversion":"1.0.3",
  "tileheight":32,
- "tilesets":[
+ "tilesets":[ 
         {
-         "firstgid":1,
-         "source":"WarTileSet.tsx"
-        }, 
-        {
-         "firstgid":65,
-         "source":"SpriteCollection.tsx"
-        }, 
-        {
+         "columns":45,
          "firstgid":1290,
-         "source":"Tileset2.tsx"
+         "image":"..\/TileAssets\/WarZone Assets\/tds-modern-tilesets-environment\/PNG\/Source\/Tileset.png",
+         "imageheight":1024,
+         "imagewidth":1440,
+         "margin":0,
+         "name":"Tileset2",
+         "spacing":0,
+         "tilecount":1440,
+         "tileheight":32,
+         "tilewidth":32
         }, 
         {
+         "columns":9,
          "firstgid":2730,
-         "source":"BrokenChopper.tsx"
+         "grid":
+            {
+             "height":32,
+             "orientation":"orthogonal",
+             "width":32
+            },
+         "image":"..\/TileAssets\/WarZone Assets\/tds-modern-soldiers-and-vehicles-sprites-2\/Helicopter\/Broken\/BrokenBase.png",
+         "imageheight":288,
+         "imagewidth":288,
+         "margin":0,
+         "name":"BrokenChopper",
+         "spacing":0,
+         "tilecount":72,
+         "tileheight":32,
+         "tilewidth":32
         }],
  "tilewidth":32,
  "type":"map",

@@ -29,16 +29,28 @@ var blank;
 
 Tankk.Game.prototype = {
     create: function() {
-        /*this.map = this.game.add.tilemap("map");
-        this.map.addTilesetImage("Floor", "tiles");      
-        this.floor = this.map.createLayer("Floor");
-        this.walls = this.map.createLayer("Walls");
+        this.map = this.game.add.tilemap("map");
+        this.map.addTilesetImage("Tileset2", "tiles"); 
+        this.map.addTilesetImage("BrokenChopper", "chopper");
+        this.dirt = this.map.createLayer("Dirt");
+        this.track = this.map.createLayer("Back 3");
+        this.base = this.map.createLayer("Base");
+        this.trees = this.map.createLayer("Trees");
+        this.obstacle = this.map.createLayer("Obstacle");
 
-        this.map.setCollisionBetween(5, 6, true, "Walls");
+        //this.map.setCollisionBetween(2741, 2798, true, "Obstacle");
+        
+        this.dirt.scale.setTo(0.7);
+        this.track.scale.setTo(0.7);
+        this.base.scale.setTo(0.7);
+        this.trees.scale.setTo(0.7);
+        this.obstacle.scale.setTo(0.7);
+        this.dirt.resizeWorld();  //Find alternative?? 
+        //this.world.setBounds(0, 0, 1270, 1270);
+        
+        
 
-        this.floor.resizeWorld();
-
-        if(this.game.width > 1450) { //Compatibility for larger monitors
+        /*if(this.game.width > 1450) { //Compatibility for larger monitors
             this.game.width = 1450;
         }
 
@@ -108,6 +120,8 @@ Tankk.Game.prototype = {
         /*myEnemies = this.enemies;
         myPills = this.pills;
         myGame.world.bringToTop(healthBar);*/  
+        
+        console.log(myGame.physics.arcade.distanceBetween(myGame.input.activePointer, myPlayer));
 
         //reset player movement
         myPlayer.body.velocity.y = 0;
