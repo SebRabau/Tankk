@@ -5,5 +5,6 @@ Tankk.game.state.add("Boot", Tankk.Boot);
 Tankk.game.state.add("Preload", Tankk.Preload);
 Tankk.game.state.add("MainMenu", Tankk.MainMenu);
 Tankk.game.state.add("Game", Tankk.Game);
+Tankk.game.state.add("Lose", Tankk.Lose);
 
 Tankk.game.state.start("Boot");

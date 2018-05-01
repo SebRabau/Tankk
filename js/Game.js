@@ -52,7 +52,8 @@ Tankk.Game.prototype = {
         this.trees = this.map.createLayer("Trees");
         this.obstacle = this.map.createLayer("Obstacle");
 
-        //this.map.setCollisionBetween(2741, 2798, true, "Obstacle");
+        this.map.setCollisionBetween(216, 300, true, "Obstacle");
+        this.map.setCollisionBetween(300, 335, true, "Base");
         
         /*this.dirt.scale.setTo(0.7);
         this.track.scale.setTo(0.7);
@@ -151,11 +152,11 @@ Tankk.Game.prototype = {
 
         //Keyboard input
         if(this.cursors.up.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.W)) {
-            myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , 200, myPlayer.body.velocity);
+            myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , 130, myPlayer.body.velocity);
             ismoving = true
         }        
         if(this.cursors.down.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.S)) {
-            myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , -130, myPlayer.body.velocity);
+            myGame.physics.arcade.velocityFromRotation(myPlayer.rotation + 1.571 , -70, myPlayer.body.velocity);
             ismoving = true
         }
         if(this.cursors.left.isDown || myGame.input.keyboard.isDown(Phaser.Keyboard.A)) {
@@ -178,20 +179,21 @@ Tankk.Game.prototype = {
         }
 
         //Enemy movement
-        /*myEnemies.forEach(function(enemy) {
+        myEnemies.forEach(function(enemy) {
             myGame.physics.arcade.moveToObject(enemy, myPlayer, enemy.speed);
-            enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 1.571; // Pi/2
-        });/*
+            enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
+        });
 
         //Collisions
-        myGame.physics.arcade.collide(myPlayer, this.walls);
-        myGame.physics.arcade.collide(myPlayer, this.world);
-        myGame.physics.arcade.collide(myEnemies, this.walls);*/
+        myGame.physics.arcade.collide(myPlayer, this.obstacle);        
+        myGame.physics.arcade.collide(myEnemies, this.obstacle);
+        myGame.physics.arcade.collide(myPlayer, this.base);
+        myGame.physics.arcade.collide(myEnemies, this.base);
         myGame.physics.arcade.collide(myEnemies, myEnemies);
         myGame.physics.arcade.collide(myPlayer, myEnemies, this.enemyCollide, null, this);
-        myGame.physics.arcade.collide(myBullets, myEnemies, this.killEnemy, null, this);/*
-        myGame.physics.arcade.collide(myBullets, this.walls, this.killBullet, null, this);
-        myGame.physics.arcade.overlap(myPlayer, myPills, this.collectPill, null, this);*/
+        myGame.physics.arcade.collide(myBullets, myEnemies, this.killEnemy, null, this);
+        myGame.physics.arcade.collide(myBullets, this.base, this.killBullet, null, this);
+        //myGame.physics.arcade.overlap(myPlayer, myPills, this.collectPill, null, this);
         
         
     },
@@ -283,7 +285,7 @@ Tankk.Game.prototype = {
         bullet.kill();
     },
     killBullet: function(bullet, wall) {       
-        /*bullet.kill();*/
+        bullet.kill();
     },
     createPlayer: function() {
         this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, "player");
@@ -322,10 +324,12 @@ Tankk.Game.prototype = {
         this.bullets.setAll("anchor.y", 0.5);
     },
     createEnemies: function(n) {
+        var egame = this.game;
         this.enemies = this.game.add.group();
         var randX;
         var randY;
         var eMaker;
+        var eTurret;
         for(var i=0; i<n; i++) {
             randX = Math.floor(Math.random() * (this.game.world.width - 100)) + 100;
             randY = Math.floor(Math.random() * (this.game.world.height - 100)) + 100;
@@ -336,9 +340,14 @@ Tankk.Game.prototype = {
 
         this.enemies.forEach(function(enemy) {
             enemy.health = 60;
-            enemy.speed = 120;
+            enemy.speed = 80;
             enemy.anchor.setTo(0.5, 0.5);
             enemy.scale.setTo(0.8);
+            
+            eTurret = egame.make.sprite(-64, -70, "eTurret"); //Spawn location for bullets
+            blank.anchor.setTo(0.5);
+            enemy.addChild(eTurret);
+            enemy.body.collideWorldBounds = true;
         });
     },
     fire:  function() {           
