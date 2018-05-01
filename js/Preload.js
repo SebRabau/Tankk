@@ -15,6 +15,8 @@ Tankk.Preload.prototype = {
         //this.load.tilemap("map", "maps/DeltaZone.json", null, Phaser.Tilemap.TILED_JSON);
         //this.load.image("tiles", "maps/tiles.png");
         //this.load.spritesheet("objectTiles", "maps/tiles.png", 32, 32, 48);
+        
+        //terrain
         this.load.tilemap("map", "assets/Tiles/TileMaps/Tankk-Map1.json", null, Phaser.Tilemap.TILED_JSON);
         this.load.image("Base", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-tilesets-environment/PNG/House/TDS04_House02.png");
         this.load.image("Bush_01", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-tilesets-environment/PNG/Trees Bushes/TDS04_0012_Bush-01.png");
@@ -23,7 +25,11 @@ Tankk.Preload.prototype = {
         this.load.image("DirtToRoad", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-tilesets-environment/PNG/Tiles/_0008_DirtToRoad.png");
         this.load.image("RoadDecals", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-tilesets-environment/PNG/Tiles/_0005_RoadDecals.png");
         
+        //vehicles
         this.load.image("BrokenChopper", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-soldiers-and-vehicles-sprites-2/Helicopter/Broken/BrokenBase.png");
+        this.load.image("Humvee_Broken_05", "assets/Tiles/TileAssets/WarZone Assets/tds-pixel-art-modern-soldiers-and-vehicles-sprites\Humvee\Humvee_Broken_0005.png");
+
+        
         this.load.spritesheet("menuButtons", "assets/menuButtons.png", 200, 50, 12);
         this.load.spritesheet("explosion", "assets/Animations/Explosion2/1Single.png", 452, 512, 8);
         this.load.image("player", "assets/Tanks/ACS/Source/ACS_Base.png");
