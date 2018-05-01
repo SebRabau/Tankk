@@ -22,6 +22,8 @@ Tankk.Preload.prototype = {
         this.load.spritesheet("explosion", "assets/Animations/Explosion2/1Single.png", 452, 512, 8);
         this.load.image("player", "assets/Tanks/ACS/Source/ACS_Base.png");
         this.load.image("turret", "assets/Tanks/ACS/Source/ACS_Tower.png");
+        this.load.image("enemy", "assets/Tanks/BTR/BTR_BaseC.png");
+        this.load.image("Eturret", "assets/Tanks/BTR/BTR_TowerC.png");
         this.load.image("blank", "assets/blank.png");
         this.load.image("bullet", "assets/Bullet.png");
         
