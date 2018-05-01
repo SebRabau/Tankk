@@ -84,20 +84,7 @@
          "tilecount":100,
          "tileheight":32,
          "tilewidth":32
-        }, 
-        {
-         "columns":8,
-         "firstgid":101,
-         "image":"..\/TileAssets\/WarZone Assets\/tds-modern-tilesets-environment\/PNG\/House\/TDS04_House02.png",
-         "imageheight":139,
-         "imagewidth":263,
-         "margin":0,
-         "name":"Base",
-         "spacing":0,
-         "tilecount":32,
-         "tileheight":32,
-         "tilewidth":32
-        }, 
+        },  
         {
          "columns":1,
          "firstgid":133,
