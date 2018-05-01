@@ -40,11 +40,11 @@ Tankk.Game.prototype = {
 
         //this.map.setCollisionBetween(2741, 2798, true, "Obstacle");
         
-        this.dirt.scale.setTo(0.7);
+        /*this.dirt.scale.setTo(0.7);
         this.track.scale.setTo(0.7);
         this.base.scale.setTo(0.7);
         this.trees.scale.setTo(0.7);
-        this.obstacle.scale.setTo(0.7);
+        this.obstacle.scale.setTo(0.7);*/
         this.dirt.resizeWorld();  //Find alternative?? 
         //this.world.setBounds(0, 0, 1270, 1270);
         
