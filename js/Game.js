@@ -131,7 +131,7 @@ Tankk.Game.prototype = {
         myTurret = this.turret;
         myEnemies = this.enemies;
         //myPills = this.pills;
-        //myGame.world.bringToTop(healthBar);  
+        myGame.world.bringToTop(healthBar);  
         
         //console.log(myGame.physics.arcade.distanceBetween(myGame.input.activePointer, myPlayer));
 
@@ -176,7 +176,7 @@ Tankk.Game.prototype = {
         }
 
         //Enemy movement
-        myEnemies.forEach(function(enemy) {
+        /*myEnemies.forEach(function(enemy) {
             myGame.physics.arcade.moveToObject(enemy, myPlayer, enemy.speed);
             enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 1.571; // Pi/2
         });/*
@@ -185,9 +185,9 @@ Tankk.Game.prototype = {
         myGame.physics.arcade.collide(myPlayer, this.walls);
         myGame.physics.arcade.collide(myPlayer, this.world);
         myGame.physics.arcade.collide(myEnemies, this.walls);*/
-        myGame.physics.arcade.collide(myEnemies, myEnemies);/*
+        myGame.physics.arcade.collide(myEnemies, myEnemies);
         myGame.physics.arcade.collide(myPlayer, myEnemies, this.enemyCollide, null, this);
-        myGame.physics.arcade.collide(myBullets, myEnemies, this.killEnemy, null, this);
+        myGame.physics.arcade.collide(myBullets, myEnemies, this.killEnemy, null, this);/*
         myGame.physics.arcade.collide(myBullets, this.walls, this.killBullet, null, this);
         myGame.physics.arcade.overlap(myPlayer, myPills, this.collectPill, null, this);*/
         
@@ -211,16 +211,16 @@ Tankk.Game.prototype = {
         pill.kill();*/
     },
     enemyCollide: function(player, enemy) {
-        /*player.health -= 10;
+        player.health -= 10;
         score -= 10;
 
         //check for loss
         if(myPlayer.health <= 0) {
-            loseLife.play("", 0, 0.7);
+            playerExplode.play("", 0, 0.7);
             this.state.start("Lose", [score, waveN]);
         }
 
-        explode.play("", 0, 0.7);
+        enemyExplode.play("", 0, 0.7);
         this.explode(enemy);
 
         enemy.destroy();
@@ -246,13 +246,13 @@ Tankk.Game.prototype = {
                 this.enemies.forEach(function(enemy) {enemy.health = 80; if(waveN >= 15) {enemy.speed = 140}});
             }
             this.updateWaveE();
-        }*/
+        }
     },
     killEnemy: function(bullet, enemy) {        
-        /*enemy.health -= 20;
+        enemy.health -= 100;
 
         if(enemy.health <= 0) {
-            splat.play("", 0, 0.7);
+            enemyExplode.play("", 0, 0.7);
             this.explode(enemy);
             enemy.destroy();
             enemyCount--;
@@ -278,7 +278,7 @@ Tankk.Game.prototype = {
                 this.updateWaveE();
             }
         }        
-        bullet.kill();*/
+        bullet.kill();
     },
     killBullet: function(bullet, wall) {       
         /*bullet.kill();*/
@@ -294,7 +294,7 @@ Tankk.Game.prototype = {
 
         this.player.health = 100;
 
-        this.game.camera.follow(this.player); 
+        //this.game.camera.follow(this.player); 
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
         
@@ -352,27 +352,28 @@ Tankk.Game.prototype = {
         }
     },
     explode: function(target) {
-        /*var emitter = this.game.add.emitter(target.x, target.y, 100);
-        emitter.makeParticles("particle");
+        var emitter = this.game.add.emitter(target.x, target.y, 100);
+        emitter.makeParticles("player");
+        //emitter.makeParticles("particle");
         emitter.minParticleSpeed.setTo(-200, -200);
         emitter.maxParticleSpeed.setTo(200, 200);
         emitter.gravity = 0;
         emitter.start(true, 250, null, 100);
         myGame.time.events.add(250, function() {
             emitter.destroy();
-        });*/
+        });
     },
     updateScore: function() {
-        /*scoreText.setText("Score = "+score);*/
+        scoreText.setText("Score = "+score);
     },
     updateWaveN: function() {
-        /*waveText.setText("Wave "+waveN);*/
+        waveText.setText("Wave "+waveN);
     },
     updateWaveE: function() {
-        /*enemyText.setText(enemyCount+" enemies left");*/
+        enemyText.setText(enemyCount+" enemies left");
     },
     updateHealth: function() {        
-        /*if(myPlayer.health == 100) {
+        if(myPlayer.health == 100) {
             healthBar.frame = 0;
         } else if(myPlayer.health == 90) {
             healthBar.frame = 1;
@@ -392,6 +393,6 @@ Tankk.Game.prototype = {
             healthBar.frame = 8;
         } else if(myPlayer.health == 10) {
             healthBar.frame = 9;
-        } */
+        } 
     }
 };
