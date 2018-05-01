@@ -42,7 +42,9 @@ Tankk.Game.prototype = {
         this.map.addTilesetImage("RoadDecals", "RoadDecals");
         this.map.addTilesetImage("Bush_01", "Bush_01");
         this.map.addTilesetImage("BrokenChopper", "BrokenChopper");
-        this.map.addTilesetImage("Base", "Base");        
+        this.map.addTilesetImage("Base", "Base");    
+        this.map.addTilesetImage("Humvee_Broken_05", "Humvee_Broken_05");    
+
         
         this.dirt = this.map.createLayer("Dirt");
         this.track = this.map.createLayer("Roads");
