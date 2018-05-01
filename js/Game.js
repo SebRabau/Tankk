@@ -35,13 +35,15 @@ var enemyCount;
 
 Tankk.Game.prototype = {
     create: function() {
-        this.map = this.game.add.tilemap("map");
-        this.map.addTilesetImage("Base", "Base"); 
-        this.map.addTilesetImage("BrokenChopper", "BrokenChopper");
-        this.map.addTilesetImage("Bush_01", "Bush_01");
+        this.map = this.game.add.tilemap("map");         
+        this.map.addTilesetImage("DirtToRoad", "DirtToRoad");
         this.map.addTilesetImage("Bush_02", "Bush_02");
         this.map.addTilesetImage("Tree_01", "Tree_01");
-        this.map.addTilesetImage("DirtToRoad", "DirtToRoad");
+        this.map.addTilesetImage("RoadDecals", "RoadDecals");
+        this.map.addTilesetImage("Bush_01", "Bush_01");
+        this.map.addTilesetImage("BrokenChopper", "BrokenChopper");
+        this.map.addTilesetImage("Base", "Base");        
+        
         this.dirt = this.map.createLayer("Dirt");
         this.track = this.map.createLayer("Roads");
         this.base = this.map.createLayer("Base");
@@ -127,11 +129,11 @@ Tankk.Game.prototype = {
         //Update local variables
         myPlayer = this.player;
         myTurret = this.turret;
-        myEnemies = this.enemies;/*
-        myPills = this.pills;
-        myGame.world.bringToTop(healthBar);*/  
+        myEnemies = this.enemies;
+        //myPills = this.pills;
+        //myGame.world.bringToTop(healthBar);  
         
-        console.log(myGame.physics.arcade.distanceBetween(myGame.input.activePointer, myPlayer));
+        //console.log(myGame.physics.arcade.distanceBetween(myGame.input.activePointer, myPlayer));
 
         //reset player movement
         myPlayer.body.velocity.y = 0;
@@ -141,7 +143,7 @@ Tankk.Game.prototype = {
         myTurret.rotation = myGame.physics.arcade.angleToPointer(myPlayer) + 1.571 - myPlayer.rotation; //Pi/2  
 
         //Mouse/Touch input
-        if((myGame.input.mousePointer.isDown || myGame.input.activePointer.isDown) && (myGame.physics.arcade.distanceBetween(myGame.input.activePointer, myPlayer) > 120)) {   
+        if((myGame.input.mousePointer.isDown || myGame.input.activePointer.isDown) && (myGame.physics.arcade.distanceBetween(myGame.input.activePointer, myPlayer) > 130)) {   
             this.fire();
         }
 
