@@ -82,7 +82,7 @@
          "name":"BrokenChopper",
          "spacing":0,
          "tilecount":72,
-         "tileheight":33,
+         "tileheight":32,
          "tilewidth":32
         }, 
         {
@@ -178,8 +178,8 @@
          "name":"Bush_01",
          "spacing":0,
          "tilecount":1,
-         "tileheight":30,
-         "tilewidth":31
+         "tileheight":31,
+         "tilewidth":30
         }],
  "tilewidth":32,
  "type":"map",

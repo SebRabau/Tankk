@@ -36,10 +36,14 @@ var enemyCount;
 Tankk.Game.prototype = {
     create: function() {
         this.map = this.game.add.tilemap("map");
-        this.map.addTilesetImage("Tileset2", "tiles"); 
-        this.map.addTilesetImage("BrokenChopper", "chopper");
+        this.map.addTilesetImage("Base", "Base"); 
+        this.map.addTilesetImage("BrokenChopper", "BrokenChopper");
+        this.map.addTilesetImage("Bush_01", "Bush_01");
+        this.map.addTilesetImage("Bush_02", "Bush_02");
+        this.map.addTilesetImage("Tree_01", "Tree_01");
+        this.map.addTilesetImage("DirtToRoad", "DirtToRoad");
         this.dirt = this.map.createLayer("Dirt");
-        this.track = this.map.createLayer("Back 3");
+        this.track = this.map.createLayer("Roads");
         this.base = this.map.createLayer("Base");
         this.trees = this.map.createLayer("Trees");
         this.obstacle = this.map.createLayer("Obstacle");
