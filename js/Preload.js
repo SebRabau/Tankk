@@ -16,7 +16,13 @@ Tankk.Preload.prototype = {
         //this.load.image("tiles", "maps/tiles.png");
         //this.load.spritesheet("objectTiles", "maps/tiles.png", 32, 32, 48);
         this.load.tilemap("map", "assets/Tiles/TileMaps/Tankk-Map1.json", null, Phaser.Tilemap.TILED_JSON);
-        this.load.image("tiles", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-tilesets-environment/PNG/Source/Tileset.png");
+        this.load.image("base", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-tilesets-environment/PNG/House/TDS04_House02.PNG");
+        this.load.image("bush_01", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-tilesets-environment/PNG/Tree Bushes/TDS04_0012_Bush-01.PNG");
+        this.load.image("bush_02", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-tilesets-environment/PNG/Tree Bushes/TDS04_0011_Bush-02.PNG");
+        this.load.image("Tree_01", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-tilesets-environment/PNG/Tree Bushes/TDS04_0019_Tree4.PNG");
+        this.load.image("DirtRoad", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-tilesets-environment/PNG/Tiles/_0008_DirtToRoad.PNG");
+        this.load.image("RoadDecals", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-tilesets-environment/PNG/Tiles/_0005_RoadDecals.PNG");
+        
         this.load.image("chopper", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-soldiers-and-vehicles-sprites-2/Helicopter/Broken/BrokenBase.png");
         this.load.spritesheet("menuButtons", "assets/menuButtons.png", 200, 50, 12);
         this.load.spritesheet("explosion", "assets/Animations/Explosion2/1Single.png", 452, 512, 8);
