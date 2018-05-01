@@ -75,12 +75,12 @@ Tankk.Game.prototype = {
         this.createEnemies(waveE);
 
         //UI
-        healthBar = this.game.add.sprite(this.game.width/2, this.game.height - 70, "healthBar");
+        healthBar = this.game.add.sprite(this.game.world.width/2, this.game.world.height - 50, "healthBar");
         healthBar.anchor.setTo(0.5);
         healthBar.scale.setTo(3, 1);
         healthBar.fixedToCamera = true;  
 
-        scoreText = this.game.add.text(this.game.width/6, 30, "Score = " + score, {        
+        scoreText = this.game.add.text(this.game.world.width/6, 30, "Score = " + score, {        
             font: "30px Arial",
             fill: "#fff",
             align: "center"
@@ -88,7 +88,7 @@ Tankk.Game.prototype = {
         scoreText.anchor.setTo(0.5);
         scoreText.fixedToCamera = true;
 
-        waveText = this.game.add.text(this.game.width/2, 30, "Wave " + waveN, {        
+        waveText = this.game.add.text(this.game.world.width/2, 30, "Wave " + waveN, {        
             font: "30px Arial",
             fill: "#fff",
             align: "center"
@@ -96,7 +96,7 @@ Tankk.Game.prototype = {
         waveText.anchor.setTo(0.5);
         waveText.fixedToCamera = true;
 
-        enemyText = this.game.add.text(this.game.width - this.game.width/6, 30, enemyCount+" enemies left", {        
+        enemyText = this.game.add.text(this.game.world.width - this.game.world.width/6, 30, enemyCount+" enemies left", {        
             font: "30px Arial",
             fill: "#fff",
             align: "center"
@@ -176,16 +176,16 @@ Tankk.Game.prototype = {
         }
 
         //Enemy movement
-        /*myEnemies.forEach(function(enemy) {
+        myEnemies.forEach(function(enemy) {
             myGame.physics.arcade.moveToObject(enemy, myPlayer, enemy.speed);
             enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 1.571; // Pi/2
-        });
+        });/*
 
         //Collisions
         myGame.physics.arcade.collide(myPlayer, this.walls);
         myGame.physics.arcade.collide(myPlayer, this.world);
-        myGame.physics.arcade.collide(myEnemies, this.walls);
-        myGame.physics.arcade.collide(myEnemies, myEnemies);
+        myGame.physics.arcade.collide(myEnemies, this.walls);*/
+        myGame.physics.arcade.collide(myEnemies, myEnemies);/*
         myGame.physics.arcade.collide(myPlayer, myEnemies, this.enemyCollide, null, this);
         myGame.physics.arcade.collide(myBullets, myEnemies, this.killEnemy, null, this);
         myGame.physics.arcade.collide(myBullets, this.walls, this.killBullet, null, this);
@@ -305,6 +305,8 @@ Tankk.Game.prototype = {
         blank = this.game.make.sprite(0, -95, "blank"); //Spawn location for bullets
         blank.anchor.setTo(0.5);
         this.turret.addChild(blank);
+        
+        this.player.scale.setTo(0.75);
     },
     createBullets: function() {
         this.bullets = this.game.add.physicsGroup();
@@ -318,13 +320,13 @@ Tankk.Game.prototype = {
         this.bullets.setAll("anchor.y", 0.5);
     },
     createEnemies: function(n) {
-        /*this.enemies = this.game.add.group();
+        this.enemies = this.game.add.group();
         var randX;
         var randY;
         var eMaker;
         for(var i=0; i<n; i++) {
-            randX = Math.floor(Math.random() * 1450) + 100;
-            randY = Math.floor(Math.random() * 1450) + 100;
+            randX = Math.floor(Math.random() * (this.game.world.width - 100)) + 100;
+            randY = Math.floor(Math.random() * (this.game.world.height - 100)) + 100;
             eMaker = this.game.add.sprite(randX, randY, "enemy");
             this.game.physics.arcade.enable(eMaker);
             this.enemies.add(eMaker);
@@ -333,8 +335,9 @@ Tankk.Game.prototype = {
         this.enemies.forEach(function(enemy) {
             enemy.health = 60;
             enemy.speed = 120;
-            enemy.anchor.setTo(0.5, 0.5);  
-        });*/
+            enemy.anchor.setTo(0.5, 0.5);
+            enemy.scale.setTo(0.8);
+        });
     },
     fire:  function() {           
         if(myGame.time.now > nextFire) {
