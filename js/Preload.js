@@ -27,7 +27,7 @@ Tankk.Preload.prototype = {
         
         //vehicles
         this.load.image("BrokenChopper", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-soldiers-and-vehicles-sprites-2/Helicopter/Broken/BrokenBase.png");
-        this.load.image("Humvee_Broken_05", "assets/Tiles/TileAssets/WarZone Assets/tds-pixel-art-modern-soldiers-and-vehicles-sprites\Humvee\Humvee_Broken_0005.png");
+        this.load.image("Humvee_Broken_05", "assets/Tiles/TileAssets/WarZone Assets/tds-pixel-art-modern-soldiers-and-vehicles-sprites/Humvee/Broken/Humvee_Broken_0005.png");
 
         
         this.load.spritesheet("menuButtons", "assets/menuButtons.png", 200, 50, 12);
