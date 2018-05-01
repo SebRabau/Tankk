@@ -26,6 +26,12 @@ var enemyExplode;
 var playerExplode;
 var ismoving;
 var blank;
+var healthBar;
+var score;
+var scoreText;
+var waveN;
+var waveE;
+var enemyCount;
 
 Tankk.Game.prototype = {
     create: function() {
@@ -52,15 +58,15 @@ Tankk.Game.prototype = {
 
         /*if(this.game.width > 1450) { //Compatibility for larger monitors
             this.game.width = 1450;
-        }
+        }*/
 
         enemyCount = waveE;
-        score = 0;
+        score = 0;/*
 
         this.createObjects();*/
         this.createBullets();
         this.createPlayer();        
-        /*this.createEnemies(waveE); 
+        this.createEnemies(waveE);
 
         //UI
         healthBar = this.game.add.sprite(this.game.width/2, this.game.height - 70, "healthBar");
@@ -90,11 +96,11 @@ Tankk.Game.prototype = {
             align: "center"
         });
         enemyText.anchor.setTo(0.5);
-        enemyText.fixedToCamera = true;*/
+        enemyText.fixedToCamera = true;
 
         //create local variables
         myGame = this.game; 
-        /*myBullets = this.bullets;*/
+        myBullets = this.bullets;
 
         //Audio
         tankIdle = myGame.add.audio("tankIdle");
@@ -117,7 +123,7 @@ Tankk.Game.prototype = {
         //Update local variables
         myPlayer = this.player;
         myTurret = this.turret;
-        /*myEnemies = this.enemies;
+        myEnemies = this.enemies;/*
         myPills = this.pills;
         myGame.world.bringToTop(healthBar);*/  
         
