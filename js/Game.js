@@ -188,12 +188,12 @@ Tankk.Game.prototype = {
         } else {
             tankMove.stop();
         }
-
+        /*
         //Enemy movement
         myEnemies.forEach(function(enemy) {
             myGame.physics.arcade.moveToObject(enemy, myPlayer, enemy.speed);
             enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
-        });
+        });*/
 
         //Collisions
         myGame.physics.arcade.collide(myPlayer, this.obstacle);        
@@ -337,16 +337,24 @@ Tankk.Game.prototype = {
     createEnemies: function(n) {
         var egame = this.game;
         this.enemies = this.game.add.group();
-        var randX;
-        var randY;
+        var locX = [0, egame.world.width, 70, 255, egame.world.width - 100];
+        var locY = [90, 40, egame.world.height, egame.world.height, egame.world.height];        
         var eMaker;
         var eTurret;
-        for(var i=0; i<n; i++) {
-            randX = Math.floor(Math.random() * (this.game.world.width - 100)) + 100;
-            randY = Math.floor(Math.random() * (this.game.world.height - 100)) + 100;
-            eMaker = this.game.add.sprite(randX, randY, "enemy");
-            this.game.physics.arcade.enable(eMaker);
-            this.enemies.add(eMaker);
+        var eE = this.enemies;
+        
+        for(var i=0; i<n; i++) {  
+            (function(i){
+
+                window.setTimeout(function(){
+                var rand = Math.round(Math.floor(Math.random() * 5));
+                console.log(rand);
+                eMaker = egame.add.sprite(locX[rand], locY[rand], "enemy");
+                egame.physics.arcade.enable(eMaker);
+                eE.add(eMaker);
+                }, i * 500);
+
+            }(i));            
         }
 
         this.enemies.forEach(function(enemy) {
@@ -358,7 +366,7 @@ Tankk.Game.prototype = {
             eTurret = egame.make.sprite(-64, -70, "eTurret"); //Spawn location for bullets
             blank.anchor.setTo(0.5);
             enemy.addChild(eTurret);
-            enemy.body.collideWorldBounds = true;
+            //enemy.body.collideWorldBounds = true;
         });
     },
     fire:  function() {           
