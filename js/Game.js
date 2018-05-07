@@ -33,6 +33,9 @@ var waveN;
 var waveE;
 var enemyCount;
 
+var pathfinder;
+var walkables;
+
 Tankk.Game.prototype = {
     create: function() {
         this.map = this.game.add.tilemap("map");         
@@ -118,6 +121,14 @@ Tankk.Game.prototype = {
         tankFire = myGame.add.audio("tankFire");
         playerExplode = myGame.add.audio("playerExplode");
         enemyExplode = myGame.add.audio("enemyExplode");
+        
+        //Pathfinding
+        pathfinder = myGame.plugins.add(Phaser.Plugin.PathFinderPlugin);
+        walkables = Array.from(new Array(231), (x,i) => i + 1);
+        console.log(walkables);
+        pathfinder.setGrid(this.map.layers[1].data, walkables);
+        this.findPathFrom(0, 0);
+
         /*
         music = myGame.add.audio("GameMusic");
         music.play("", 0, 0.7, true);
@@ -405,5 +416,16 @@ Tankk.Game.prototype = {
         } else if(myPlayer.health == 10) {
             healthBar.frame = 9;
         } 
+    },
+    findPathFrom: function(tilex, tiley) {
+        pathfinder.setCallbackFunction(this.processPath);
+        pathfinder.preparePathCalculation([tilex, tiley], [1, 1]);
+        pathfinder.calculatePath();
+    },
+    processPath: function(path) {
+        path_ary = path || [];
+        for (var i = 0, ilen = path_ary.length; i < ilen; i++) {
+            console.log(">>>" + path_ary[i].x + " " + path_ary[i].y);
+        }
     }
 };
