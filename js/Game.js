@@ -23,6 +23,7 @@ var waveN;
 var waveE;
 var enemyCount;
 var healthBar;
+var eblank;
 
 var pathfinder;
 var walkables;
@@ -47,8 +48,8 @@ Tankk.Game.prototype = {
         
         this.base.health = 100;
 
-        this.map.setCollisionBetween(216, 300, true, "Obstacle");
-        this.map.setCollisionBetween(300, 335, true, "Base");
+        this.map.setLayer(this.walkArea);
+        this.map.setCollisionByExclusion([45], true, this.walkArea);
         
         this.dirt.resizeWorld();  
 
@@ -182,9 +183,9 @@ Tankk.Game.prototype = {
         myEnemies.forEach(function(enemy) {
             if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 200) {
                 enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
-                A.enemyFire();
+                A.enemyFire(enemy);
         } else {
-            myGame.physics.arcade.moveToXY(enemy, 480, 650, enemy.speed);
+            //myGame.physics.arcade.moveToXY(enemy, 480, 650, enemy.speed);
         }
         });
         
@@ -340,6 +341,7 @@ Tankk.Game.prototype = {
         this.enemyBullets.setAll("outOfBoundsKill", true);
         this.enemyBullets.setAll("anchor.x", 0.5);
         this.enemyBullets.setAll("anchor.y", 0.5);
+        this.enemyBullets.setAll("scale", 0.5);
     },
     createEnemies: function(n) {
         var egame = this.game;
@@ -352,7 +354,6 @@ Tankk.Game.prototype = {
         
         for(var i=0; i<n; i++) {  
             (function(i){
-
                 window.setTimeout(function(){
                 var rand = Math.round(Math.floor(Math.random() * 5));
                 console.log(rand);
@@ -362,12 +363,13 @@ Tankk.Game.prototype = {
                 eMaker.speed = 80;
                 eMaker.anchor.setTo(0.5, 0.5);
                 eMaker.scale.setTo(0.7);
-                eTurret = egame.make.sprite(-64, -70, "eTurret"); //Spawn location for bullets
-                console.log("adding turret");
-                blank.anchor.setTo(0.5);
+                eTurret = egame.make.sprite(-64, -70, "eTurret"); //Spawn location for turret                
                 eMaker.addChild(eTurret);
                 eE.add(eMaker);
-                }, i * 500);
+                eMaker.eblank = egame.make.sprite(65, 160, "blank"); //Spawn location for bullets
+                eMaker.eblank.anchor.setTo(0.5);
+                eTurret.addChild(eMaker.eblank);
+                                            }, i * 500);
 
             }(i));            
         }
@@ -384,15 +386,15 @@ Tankk.Game.prototype = {
             myGame.physics.arcade.moveToPointer(bullet, 1500);
         }
     },
-    enemyFire:  function() {           
+    enemyFire:  function(enemy) {           
         if(myGame.time.now > enemyNextFire) {
             tankFire.play("", 0, 0.3);
             enemyNextFire = myGame.time.now + enemyFireRate;
 
             enemyBullet = this.enemyBullets.getFirstDead();
 
-            enemyBullet.reset(blank.world.x, blank.world.y);
-            enemyBullet.rotation = myGame.physics.arcade.angleToXY(this.player.x, this.player.y) + 1.571; //Pi/2
+            enemyBullet.reset(enemy.eblank.world.x, enemy.eblank.world.y);
+            enemyBullet.rotation = myGame.physics.arcade.angleToXY(enemyBullet, this.player.x, this.player.y) + 1.57; //Pi/2
             myGame.physics.arcade.moveToXY(enemyBullet, myPlayer.x, myPlayer.y, 1000);
         }
     },
