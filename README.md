@@ -8,6 +8,7 @@ Phaser tank game in 3-man group with Leandro Santos, Joashua Ruane and Myself
 * Eastar.js - https://github.com/prettymuchbryce/easystarjs
 * Bullet Asset - https://opengameart.org/content/bullet-collection-1-m484
 * Player Health Bar - https://opengameart.org/content/health-bar
+https://www.freepik.com/free-photos-vectors/wings
 
 ### Audio:
 * Player explosion - https://www.zapsplat.com/music/car-explosion-bomb-debris/
