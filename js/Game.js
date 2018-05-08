@@ -27,6 +27,7 @@ var eblank;
 
 var pathfinder;
 var walkables;
+var path_ary;
 
 Tankk.Game.prototype = {
     create: function() {
@@ -106,11 +107,10 @@ Tankk.Game.prototype = {
         
         //Pathfinding
         pathfinder = myGame.plugins.add(Phaser.Plugin.PathFinderPlugin);
-        walkables = Array.from(new Array(231), (x,i) => i + 1);
-        //walkables = [45];
-        console.log(walkables);
-        pathfinder.setGrid(this.map.layers[4].data, walkables);
-        this.findPathFrom(0, 0);
+        walkables = [45];
+        console.log(this.map.layers[0].data);
+        pathfinder.setGrid(this.map.layers[0].data, walkables);
+        this.findPathFrom(1, 4);
 
         /*
         music = myGame.add.audio("GameMusic");
@@ -188,8 +188,31 @@ Tankk.Game.prototype = {
                 A.enemyFire(enemy, 250, 250);
         } else {
             //myGame.physics.arcade.moveToXY(enemy, 480, 650, enemy.speed);
+            enemy.tileX = Math.floor(enemy.x/32) - 1;
+            enemy.tileY = Math.floor(enemy.y/32) - 1;
+            //console.log(enemy.tileX + " " + enemy.tileY);
+            if (enemy.pathToBase.length !== 0) {
+                //check if at current destination tile
+                if (enemy.tileX === enemy.pathToBase[0].x && enemy.tileY === enemy.pathToBase[0].y) {
+                    //check whether there are any more tiles in path
+                    if (enemy.pathToBase.length > 1) {
+
+                        //get next destination tile
+                        enemy.pathToBase.shift();
+                        console.log("Next destination tile: " + enemy.pathToBase[0].x + " " + enemy.pathToBase[0].y);
+                        // calculate move direction
+                        _xDir = enemy.pathToBase[0].x - enemy.tileX;
+                        _yDir = enemy.pathToBase[0].y - enemy.tileY;
+                    } else {
+                        // no more tiles in path so must be at final destination
+                        enemy.pathToBase = [];
+                        _xDir = 0;
+                        _yDir = 0;
+                    }
+                } // end of getting next tile in path
+            }
         }
-        });
+        });  
         
 
         //Collisions
@@ -345,30 +368,37 @@ Tankk.Game.prototype = {
     createEnemies: function(n) {
         var egame = this.game;
         this.enemies = this.game.add.group();
-        var locX = [0, egame.world.width, 70, 255, egame.world.width - 100];
-        var locY = [90, 40, egame.world.height, egame.world.height, egame.world.height];        
+        var locX = [32, egame.world.width - 50, 70, 255, egame.world.width - 100];
+        var locY = [90, 40, egame.world.height - 50, egame.world.height - 50, egame.world.height - 50];       
         var eMaker;
         var eTurret;
-        var eE = this.enemies;
+        var A = this;
         
         for(var i=0; i<n; i++) {  
             (function(i){
                 window.setTimeout(function(){
-                var rand = Math.round(Math.floor(Math.random() * 5));
-                console.log(rand);
-                eMaker = egame.add.sprite(locX[rand], locY[rand], "enemy");
-                egame.physics.arcade.enable(eMaker);
-                eMaker.health = 60;
-                eMaker.speed = 80;
-                eMaker.anchor.setTo(0.5, 0.5);
-                eMaker.scale.setTo(0.7);
-                eTurret = egame.make.sprite(-64, -70, "eTurret"); //Spawn location for turret                
-                eMaker.addChild(eTurret);
-                eE.add(eMaker);
-                eMaker.eblank = egame.make.sprite(65, 160, "blank"); //Spawn location for bullets
-                eMaker.eblank.anchor.setTo(0.5);
-                eTurret.addChild(eMaker.eblank);
-                                            }, i * 500);
+                    var rand = Math.round(Math.floor(Math.random() * 5));
+                    console.log(rand);
+                    eMaker = egame.add.sprite(locX[rand], locY[rand], "enemy");
+                    egame.physics.arcade.enable(eMaker);
+                    eMaker.tileX = Math.floor(locX[rand]/32) - 1;
+                    eMaker.tileY = Math.floor(locY[rand]/32) - 1;
+                    console.log("Tile X: " + eMaker.tileX);
+                    console.log("Tile Y: " + eMaker.tileY);
+                    A.findPathFrom(eMaker.tileX, eMaker.tileY);
+                    eMaker.pathToBase = path_ary;
+                    console.log("Enemy Path: " + eMaker.pathToBase);
+                    eMaker.health = 60;
+                    eMaker.speed = 80;
+                    eMaker.anchor.setTo(0.5, 0.5);
+                    eMaker.scale.setTo(0.7);
+                    eTurret = egame.make.sprite(-64, -70, "eTurret"); //Spawn location for turret                
+                    eMaker.addChild(eTurret);
+                    A.enemies.add(eMaker);
+                    eMaker.eblank = egame.make.sprite(65, 160, "blank"); //Spawn location for bullets
+                    eMaker.eblank.anchor.setTo(0.5);
+                    eTurret.addChild(eMaker.eblank);
+                }, i * 500);
 
             }(i));            
         }
@@ -449,13 +479,17 @@ Tankk.Game.prototype = {
     },
     findPathFrom: function(tilex, tiley) {
         pathfinder.setCallbackFunction(this.processPath);
-        pathfinder.preparePathCalculation([tilex, tiley], [15, 18]);
-        pathfinder.calculatePath();
+        pathfinder.preparePathCalculation([tilex, tiley], [2, 14]);
+        path = pathfinder.calculatePath();
+        return path;
     },
     processPath: function(path) {
+        var mymap = this.map;
         path_ary = path || [];
+        //console.log("Process path path: " + path_ary);
         for (var i = 0, ilen = path_ary.length; i < ilen; i++) {
             console.log(">>>" + path_ary[i].x + " " + path_ary[i].y);
         }
+        return path_ary;
     }
 };
