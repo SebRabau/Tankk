@@ -181,7 +181,7 @@ Tankk.Game.prototype = {
         var A = this;
         
         myEnemies.forEach(function(enemy) {
-            if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 200) {
+            if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 300) {
                 enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
                 A.enemyFire(enemy, -250, -250);
                 A.enemyFire(enemy, 0, 0);
@@ -223,6 +223,7 @@ Tankk.Game.prototype = {
         myGame.physics.arcade.collide(myBullets, myEnemies, this.killEnemy, null, this);
         myGame.physics.arcade.collide(myBullets, this.base, this.killBullet, null, this);
         myGame.physics.arcade.collide(enemyBullets, this.base, this.baseHit, null, this);
+        myGame.physics.arcade.overlap(myPlayer, enemyBullets, this.playerHit, null, this);
         //myGame.physics.arcade.overlap(myPlayer, myPills, this.collectPill, null, this);
         
         
@@ -236,11 +237,16 @@ Tankk.Game.prototype = {
         this.pills.add(two);
         this.pills.add(three);*/
     },
-    collectPill: function(player, pill) {
-        /*player.health = 100;
+    playerHit: function(player, bullet) {
+        player.health -= 1;
+        console.log(player.health);
         this.updateHealth();
-        collect.play("", 0, 0.7);
-        pill.kill();*/
+        //check for loss
+        if(myPlayer.health <= 0) {
+            playerExplode.play("", 0, 0.7);
+            this.state.start("Lose", [score, waveN]);
+        }
+        bullet.kill();
     },
     enemyCollide: function(player, enemy) {
         player.health -= 10;
@@ -318,7 +324,7 @@ Tankk.Game.prototype = {
     baseHit: function(bullet, base) {       
         bullet.kill();
         
-        this.base.health -= 5;
+        this.base.health -= 0.05;
     },
     createPlayer: function() {
         this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, "player");
@@ -369,7 +375,7 @@ Tankk.Game.prototype = {
         var egame = this.game;
         this.enemies = this.game.add.group();
         var locX = [32, egame.world.width - 50, 70, 255, egame.world.width - 100];
-        var locY = [90, 40, egame.world.height - 50, egame.world.height - 50, egame.world.height - 50];       
+        var locY = [128, 96, egame.world.height - 50, egame.world.height - 50, egame.world.height - 50];       
         var eMaker;
         var eTurret;
         var A = this;
@@ -481,7 +487,6 @@ Tankk.Game.prototype = {
         pathfinder.setCallbackFunction(this.processPath);
         pathfinder.preparePathCalculation([tilex, tiley], [2, 14]);
         path = pathfinder.calculatePath();
-        return path;
     },
     processPath: function(path) {
         var mymap = this.map;
