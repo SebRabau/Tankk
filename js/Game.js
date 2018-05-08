@@ -6,7 +6,7 @@ var fireRate = 800;
 var nextFire = 0;
 var bullet;
 var enemyBullet;
-var enemyFireRate = 1200;
+var enemyFireRate = 400;
 var enemyNextFire = 0;
 
 var tankIdle;
@@ -23,7 +23,6 @@ var waveN;
 var waveE;
 var enemyCount;
 var healthBar;
-var eblank;
 
 var pathfinder;
 var walkables;
@@ -38,8 +37,8 @@ Tankk.Game.prototype = {
         this.map.addTilesetImage("Bush_01", "Bush_01");
         this.map.addTilesetImage("BrokenChopper", "BrokenChopper");
         this.map.addTilesetImage("Humvee_Broken_05", "Humvee_Broken_05");    
-        this.map.addTilesetImage("Base", "Base");   
-        
+        this.map.addTilesetImage("Base", "Base");    
+
         this.walkArea = this.map.createLayer("WalkArea");
         this.dirt = this.map.createLayer("Dirt");
         this.track = this.map.createLayer("Roads");
@@ -48,8 +47,8 @@ Tankk.Game.prototype = {
         
         this.base.health = 100;
 
-        this.map.setLayer(this.walkArea);
-        this.map.setCollisionByExclusion([45], true, this.walkArea);
+        this.map.setCollisionBetween(216, 300, true, "Obstacle");
+        this.map.setCollisionBetween(300, 335, true, "Base");
         
         this.dirt.resizeWorld();  
 
@@ -60,13 +59,17 @@ Tankk.Game.prototype = {
         this.createEnemyBullets();
         this.createPlayer();        
         this.createEnemies(waveE);
+        
+        this.updateHealth;
 
         //UI
         healthBar = this.game.make.sprite(0, -50, "healthBar");
         healthBar.anchor.setTo(0.5);
         healthBar.scale.setTo(0.3, 0.2);
         this.player.addChild(healthBar);
-
+        
+        
+        
         scoreText = this.game.add.text(this.game.world.width/6, 30, "Score = " + score, {        
             font: "30px Arial",
             fill: "#fff",
@@ -102,15 +105,15 @@ Tankk.Game.prototype = {
         tankMove = myGame.add.audio("tankMove");
         tankFire = myGame.add.audio("tankFire");
         playerExplode = myGame.add.audio("playerExplode");
-        enemyExplode = myGame.add.audio("enemyExplode");
+        enemyExplode = myGame.add.audio("enemyExplode");        
         
         //Pathfinding
         pathfinder = myGame.plugins.add(Phaser.Plugin.PathFinderPlugin);
-        walkables = Array.from(new Array(231), (x,i) => i + 1);
-        //walkables = [45];
-        console.log(walkables);
-        pathfinder.setGrid(this.map.layers[4].data, walkables);
-        this.findPathFrom(0, 0);
+        walkables = [45];
+        console.log(this.map.layers[0].data);
+        console.log(this.walkArea.data);
+        pathfinder.setGrid(this.map.layers[0].data, walkables);
+        this.findPathFrom(1, 4);
 
         /*
         music = myGame.add.audio("GameMusic");
@@ -126,8 +129,9 @@ Tankk.Game.prototype = {
         myPlayer = this.player;
         myTurret = this.turret;
         myEnemies = this.enemies;
-        this.updateHealth();
         myGame.world.bringToTop(healthBar);  
+        
+        this.updateHealth();
         
         //console.log(myGame.physics.arcade.distanceBetween(myGame.input.activePointer, myPlayer));
 
@@ -177,15 +181,35 @@ Tankk.Game.prototype = {
             myGame.physics.arcade.moveToObject(enemy, myPlayer, enemy.speed);
             enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
         });*/
-        
-        var A = this;
-        
         myEnemies.forEach(function(enemy) {
             if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 200) {
                 enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
-                A.enemyFire(enemy);
         } else {
+            console.log("The Path: " + enemy.pathToBase);
             //myGame.physics.arcade.moveToXY(enemy, 480, 650, enemy.speed);
+            enemy.tileX = Math.floor(enemy.x/32) - 1;
+            enemy.tileY = Math.floor(enemy.y/32) - 1;
+            console.log(enemy.tileX + " " + enemy.tileY);
+            if (enemy.pathToBase.length !== 0) {
+                //check if at current destination tile
+                if (enemy.tileX === enemy.pathToBase[0].x && enemy.tileY === enemy.pathToBase[0].y) {
+                    //check whether there are any more tiles in path
+                    if (enemy.pathToBase.length > 1) {
+
+                        //get next destination tile
+                        enemy.pathToBase.shift();
+                        console.log("Next destination tile: " + enemy.pathToBase[0].x + " " + enemy.pathToBase[0].y);
+                        // calculate move direction
+                        _xDir = enemy.pathToBase[0].x - enemy.tileX;
+                        _yDir = enemy.pathToBase[0].y - enemy.tileY;
+                    } else {
+                        // no more tiles in path so must be at final destination
+                        enemy.pathToBase = [];
+                        _xDir = 0;
+                        _yDir = 0;
+                    }
+                } // end of getting next tile in path
+            }
         }
         });
         
@@ -237,7 +261,6 @@ Tankk.Game.prototype = {
 
         this.updateScore();
         this.updateWaveE();
-        this.updateHealth();
 
         //Check for wave end
         if(enemyCount == 0) {
@@ -341,35 +364,41 @@ Tankk.Game.prototype = {
         this.enemyBullets.setAll("outOfBoundsKill", true);
         this.enemyBullets.setAll("anchor.x", 0.5);
         this.enemyBullets.setAll("anchor.y", 0.5);
-        this.enemyBullets.setAll("scale", 0.5);
     },
     createEnemies: function(n) {
+        var A = this;
         var egame = this.game;
         this.enemies = this.game.add.group();
-        var locX = [0, egame.world.width, 70, 255, egame.world.width - 100];
-        var locY = [90, 40, egame.world.height, egame.world.height, egame.world.height];        
+        var locX = [32, egame.world.width - 50, 70, 255, egame.world.width - 100];
+        var locY = [90, 40, egame.world.height - 50, egame.world.height - 50, egame.world.height - 50];
         var eMaker;
         var eTurret;
         var eE = this.enemies;
         
         for(var i=0; i<n; i++) {  
             (function(i){
+
                 window.setTimeout(function(){
                 var rand = Math.round(Math.floor(Math.random() * 5));
                 console.log(rand);
                 eMaker = egame.add.sprite(locX[rand], locY[rand], "enemy");
+                eMaker.tileX = Math.floor(locX[rand]/32) - 1;
+                eMaker.tileY = Math.floor(locY[rand]/32) - 1;
+                console.log("Tile X: " + eMaker.tileX);
+                console.log("Tile Y: " + eMaker.tileY);
+                eMaker.pathToBase = A.findPathFrom(eMaker.tileX, eMaker.tileY);
+                console.log("Enemy Path: " + eMaker.pathToBase);
                 egame.physics.arcade.enable(eMaker);
                 eMaker.health = 60;
                 eMaker.speed = 80;
                 eMaker.anchor.setTo(0.5, 0.5);
                 eMaker.scale.setTo(0.7);
-                eTurret = egame.make.sprite(-64, -70, "eTurret"); //Spawn location for turret                
+                eTurret = egame.make.sprite(-64, -70, "eTurret"); //Spawn location for bullets
+                console.log("adding turret");
+                blank.anchor.setTo(0.5);
                 eMaker.addChild(eTurret);
                 eE.add(eMaker);
-                eMaker.eblank = egame.make.sprite(65, 160, "blank"); //Spawn location for bullets
-                eMaker.eblank.anchor.setTo(0.5);
-                eTurret.addChild(eMaker.eblank);
-                                            }, i * 500);
+                }, i * 500);
 
             }(i));            
         }
@@ -386,16 +415,16 @@ Tankk.Game.prototype = {
             myGame.physics.arcade.moveToPointer(bullet, 1500);
         }
     },
-    enemyFire:  function(enemy) {           
+    enemyFire:  function() {           
         if(myGame.time.now > enemyNextFire) {
             tankFire.play("", 0, 0.3);
-            enemyNextFire = myGame.time.now + enemyFireRate;
+            nextFire = myGame.time.now + enemyFireRate;
 
-            enemyBullet = this.enemyBullets.getFirstDead();
+            enemyBullet = this.bullets.getFirstDead();
 
-            enemyBullet.reset(enemy.eblank.world.x, enemy.eblank.world.y);
-            enemyBullet.rotation = myGame.physics.arcade.angleToXY(enemyBullet, this.player.x, this.player.y) + 1.57; //Pi/2
-            myGame.physics.arcade.moveToXY(enemyBullet, myPlayer.x, myPlayer.y, 1000);
+            enemyBullet.reset(blank.world.x, blank.world.y);
+            enemyBullet.rotation = myGame.physics.arcade.angleToPointer(bullet) + 1.571; //Pi/2
+            myGame.physics.arcade.moveToPointer(enemyBullet, 1500);
         }
     },
     explode: function(target) {
@@ -443,14 +472,21 @@ Tankk.Game.prototype = {
         }
     },
     findPathFrom: function(tilex, tiley) {
-        pathfinder.setCallbackFunction(this.processPath);
-        pathfinder.preparePathCalculation([tilex, tiley], [15, 18]);
-        pathfinder.calculatePath();
+        console.log("Start " + tilex + tiley);
+        var path = pathfinder.setCallbackFunction(this.processPath);
+        console.log("Find path path: " + path);
+        pathfinder.preparePathCalculation([tilex, tiley], [2, 14]);
+        path = pathfinder.calculatePath();
+        return path;
+        console.log("End");
     },
     processPath: function(path) {
+        var mymap = this.map;
         path_ary = path || [];
+        console.log("Process path path: " + path_ary);
         for (var i = 0, ilen = path_ary.length; i < ilen; i++) {
             console.log(">>>" + path_ary[i].x + " " + path_ary[i].y);
         }
+        return path_ary;
     }
 };
