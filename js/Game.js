@@ -6,7 +6,7 @@ var fireRate = 800;
 var nextFire = 0;
 var bullet;
 var enemyBullet;
-var enemyFireRate = 1200;
+var enemyFireRate = 100;
 var enemyNextFire = 0;
 
 var tankIdle;
@@ -47,9 +47,9 @@ Tankk.Game.prototype = {
         this.obstacle = this.map.createLayer("Obstacle");
         
         this.base.health = 100;
-
-        this.map.setLayer(this.walkArea);
-        this.map.setCollisionByExclusion([45], true, this.walkArea);
+        
+        this.map.setCollisionBetween(101, 101, true, "WalkArea");
+        this.map.setCollisionBetween(300, 335, true, "Base");
         
         this.dirt.resizeWorld();  
 
@@ -183,7 +183,9 @@ Tankk.Game.prototype = {
         myEnemies.forEach(function(enemy) {
             if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 200) {
                 enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
-                A.enemyFire(enemy);
+                A.enemyFire(enemy, -250, -250);
+                A.enemyFire(enemy, 0, 0);
+                A.enemyFire(enemy, 250, 250);
         } else {
             //myGame.physics.arcade.moveToXY(enemy, 480, 650, enemy.speed);
         }
@@ -191,10 +193,8 @@ Tankk.Game.prototype = {
         
 
         //Collisions
-        myGame.physics.arcade.collide(myPlayer, this.obstacle);        
-        myGame.physics.arcade.collide(myEnemies, this.obstacle);
-        myGame.physics.arcade.collide(myPlayer, this.base);
-        myGame.physics.arcade.collide(myEnemies, this.base);
+        myGame.physics.arcade.collide(myPlayer, this.walkArea);        
+        myGame.physics.arcade.collide(myEnemies, this.walkArea);
         myGame.physics.arcade.collide(myEnemies, myEnemies);
         myGame.physics.arcade.collide(myPlayer, myEnemies, this.enemyCollide, null, this);
         myGame.physics.arcade.collide(myBullets, myEnemies, this.killEnemy, null, this);
@@ -341,7 +341,6 @@ Tankk.Game.prototype = {
         this.enemyBullets.setAll("outOfBoundsKill", true);
         this.enemyBullets.setAll("anchor.x", 0.5);
         this.enemyBullets.setAll("anchor.y", 0.5);
-        this.enemyBullets.setAll("scale", 0.5);
     },
     createEnemies: function(n) {
         var egame = this.game;
@@ -386,16 +385,22 @@ Tankk.Game.prototype = {
             myGame.physics.arcade.moveToPointer(bullet, 1500);
         }
     },
-    enemyFire:  function(enemy) {           
+    enemyFire:  function(enemy, gx, gy) {           
         if(myGame.time.now > enemyNextFire) {
-            tankFire.play("", 0, 0.3);
+            gx = gx || 0;
+            gy = gy || 0;
+            
+            console.log("fire");
+            tankFire.play("", 0, 0.1);
             enemyNextFire = myGame.time.now + enemyFireRate;
 
             enemyBullet = this.enemyBullets.getFirstDead();
-
-            enemyBullet.reset(enemy.eblank.world.x, enemy.eblank.world.y);
+            
+            enemyBullet.scale.setTo(0.4);
+            enemyBullet.body.gravity.set(gx, gy);
+            enemyBullet.reset(enemy.eblank.world.x, enemy.eblank.world.y + this.game.rnd.between(-15, 15));
             enemyBullet.rotation = myGame.physics.arcade.angleToXY(enemyBullet, this.player.x, this.player.y) + 1.57; //Pi/2
-            myGame.physics.arcade.moveToXY(enemyBullet, myPlayer.x, myPlayer.y, 1000);
+            myGame.physics.arcade.moveToXY(enemyBullet, myPlayer.x, myPlayer.y, 600);
         }
     },
     explode: function(target) {
