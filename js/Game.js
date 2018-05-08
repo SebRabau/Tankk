@@ -6,7 +6,7 @@ var fireRate = 800;
 var nextFire = 0;
 var bullet;
 var enemyBullet;
-var enemyFireRate = 100;
+var enemyFireRate = 150;
 var enemyNextFire = 0;
 
 var tankIdle;
@@ -183,9 +183,8 @@ Tankk.Game.prototype = {
         myEnemies.forEach(function(enemy) {
             if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 300) {
                 enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
-                A.enemyFire(enemy, -250, -250);
-                A.enemyFire(enemy, 0, 0);
-                A.enemyFire(enemy, 250, 250);
+                A.enemyFire(enemy, -150, -150);
+                A.enemyFire(enemy, 150, 150);
         } else {
             //myGame.physics.arcade.moveToXY(enemy, 480, 650, enemy.speed);
             enemy.tileX = Math.floor(enemy.x/32) - 1;
@@ -239,7 +238,12 @@ Tankk.Game.prototype = {
     },
     playerHit: function(player, bullet) {
         player.health -= 1;
-        console.log(player.health);
+        
+        setTimeout(function () {
+            healthBar.frame = 11;
+            myGame.world.bringToTop(healthBar);
+        }), 5000;  
+                   
         this.updateHealth();
         //check for loss
         if(myPlayer.health <= 0) {
@@ -251,6 +255,11 @@ Tankk.Game.prototype = {
     enemyCollide: function(player, enemy) {
         player.health -= 10;
         score -= 10;
+        
+        setTimeout(function () {
+            healthBar.frame = 11; 
+            myGame.world.bringToTop(healthBar);
+        }), 5000;        
         
         //check for loss
         if(myPlayer.health <= 0) {
@@ -354,7 +363,7 @@ Tankk.Game.prototype = {
         this.bullets.enableBody = true;
         this.bullets.physicsbodyType = Phaser.Physics.ARCADE;
 
-        this.bullets.createMultiple(50, "bullet");
+        this.bullets.createMultiple(150, "bullet");
         this.bullets.setAll("checkWorldBounds", true);
         this.bullets.setAll("outOfBoundsKill", true);
         this.bullets.setAll("anchor.x", 0.5);
@@ -426,7 +435,6 @@ Tankk.Game.prototype = {
             gx = gx || 0;
             gy = gy || 0;
             
-            console.log("fire");
             tankFire.play("", 0, 0.1);
             enemyNextFire = myGame.time.now + enemyFireRate;
 
@@ -436,7 +444,7 @@ Tankk.Game.prototype = {
             enemyBullet.body.gravity.set(gx, gy);
             enemyBullet.reset(enemy.eblank.world.x, enemy.eblank.world.y + this.game.rnd.between(-15, 15));
             enemyBullet.rotation = myGame.physics.arcade.angleToXY(enemyBullet, this.player.x, this.player.y) + 1.57; //Pi/2
-            myGame.physics.arcade.moveToXY(enemyBullet, myPlayer.x, myPlayer.y, 600);
+            myGame.physics.arcade.moveToXY(enemyBullet, myPlayer.x, myPlayer.y, 400);
         }
     },
     explode: function(target) {
@@ -461,25 +469,25 @@ Tankk.Game.prototype = {
         enemyText.setText(enemyCount+" enemies left");
     },
     updateHealth: function() {        
-        if(myPlayer.health == 100) {
+        if(myPlayer.health <= 100 && myPlayer.health > 90) {
             healthBar.frame = 10;
-        } else if(myPlayer.health == 90) {
+        } else if(myPlayer.health <= 90 && myPlayer.health > 80) {
             healthBar.frame = 9;
-        } else if(myPlayer.health == 80) {
+        } else if(myPlayer.health <= 80 && myPlayer.health > 70) {
             healthBar.frame = 8;
-        } else if(myPlayer.health == 70) {
+        } else if(myPlayer.health <= 70 && myPlayer.health > 60) {
             healthBar.frame = 7;
-        } else if(myPlayer.health == 60) {
+        } else if(myPlayer.health <= 60 && myPlayer.health > 50) {
             healthBar.frame = 6;
-        } else if(myPlayer.health == 50) {
+        } else if(myPlayer.health <= 50 && myPlayer.health > 40) {
             healthBar.frame = 5;
-        } else if(myPlayer.health == 40) {
+        } else if(myPlayer.health <= 40 && myPlayer.health > 30) {
             healthBar.frame = 4;
-        } else if(myPlayer.health == 30) {
+        } else if(myPlayer.health <= 30 && myPlayer.health > 20) {
             healthBar.frame = 3;
-        } else if(myPlayer.health == 20) {
+        } else if(myPlayer.health <= 20 && myPlayer.health > 10) {
             healthBar.frame = 2;
-        } else if(myPlayer.health == 10) {
+        } else if(myPlayer.health <= 10 && myPlayer.health > 0) {
             healthBar.frame = 1;
         }
     },
