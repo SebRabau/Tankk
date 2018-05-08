@@ -6,7 +6,7 @@ var fireRate = 800;
 var nextFire = 0;
 var bullet;
 var enemyBullet;
-var enemyFireRate = 400;
+var enemyFireRate = 1200;
 var enemyNextFire = 0;
 
 var tankIdle;
@@ -59,8 +59,6 @@ Tankk.Game.prototype = {
         this.createEnemyBullets();
         this.createPlayer();        
         this.createEnemies(waveE);
-        
-        this.updateHealth;
 
         //UI
         healthBar = this.game.make.sprite(0, -50, "healthBar");
@@ -108,8 +106,9 @@ Tankk.Game.prototype = {
         //Pathfinding
         pathfinder = myGame.plugins.add(Phaser.Plugin.PathFinderPlugin);
         walkables = Array.from(new Array(231), (x,i) => i + 1);
+        //walkables = [45];
         console.log(walkables);
-        pathfinder.setGrid(this.map.layers[1].data, walkables);
+        pathfinder.setGrid(this.map.layers[4].data, walkables);
         this.findPathFrom(0, 0);
 
         /*
@@ -126,6 +125,7 @@ Tankk.Game.prototype = {
         myPlayer = this.player;
         myTurret = this.turret;
         myEnemies = this.enemies;
+        this.updateHealth();
         myGame.world.bringToTop(healthBar);  
         
         //console.log(myGame.physics.arcade.distanceBetween(myGame.input.activePointer, myPlayer));
@@ -176,9 +176,13 @@ Tankk.Game.prototype = {
             myGame.physics.arcade.moveToObject(enemy, myPlayer, enemy.speed);
             enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
         });*/
+        
+        var A = this;
+        
         myEnemies.forEach(function(enemy) {
             if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 200) {
                 enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
+                A.enemyFire();
         } else {
             myGame.physics.arcade.moveToXY(enemy, 480, 650, enemy.speed);
         }
@@ -383,13 +387,13 @@ Tankk.Game.prototype = {
     enemyFire:  function() {           
         if(myGame.time.now > enemyNextFire) {
             tankFire.play("", 0, 0.3);
-            nextFire = myGame.time.now + enemyFireRate;
+            enemyNextFire = myGame.time.now + enemyFireRate;
 
-            enemyBullet = this.bullets.getFirstDead();
+            enemyBullet = this.enemyBullets.getFirstDead();
 
             enemyBullet.reset(blank.world.x, blank.world.y);
-            enemyBullet.rotation = myGame.physics.arcade.angleToPointer(bullet) + 1.571; //Pi/2
-            myGame.physics.arcade.moveToPointer(enemyBullet, 1500);
+            enemyBullet.rotation = myGame.physics.arcade.angleToXY(this.player.x, this.player.y) + 1.571; //Pi/2
+            myGame.physics.arcade.moveToXY(enemyBullet, myPlayer.x, myPlayer.y, 1000);
         }
     },
     explode: function(target) {
@@ -438,7 +442,7 @@ Tankk.Game.prototype = {
     },
     findPathFrom: function(tilex, tiley) {
         pathfinder.setCallbackFunction(this.processPath);
-        pathfinder.preparePathCalculation([tilex, tiley], [1, 1]);
+        pathfinder.preparePathCalculation([tilex, tiley], [15, 18]);
         pathfinder.calculatePath();
     },
     processPath: function(path) {
