@@ -4,20 +4,10 @@ Tankk.Game = function(){};
 
 var fireRate = 800;
 var nextFire = 0;
-/*var healthBar;
-var waveN;
-var waveE;
-var enemyCount;
-var score;
-var scoreText;
-var music;
-var collect;
-var loseLife;
-var shoot;
-var splat;
-var explode;
-var blank;*/
 var bullet;
+var enemyBullet;
+var enemyFireRate = 400;
+var enemyNextFire = 0;
 
 var tankIdle;
 var tankMove;
@@ -32,6 +22,7 @@ var scoreText;
 var waveN;
 var waveE;
 var enemyCount;
+var healthBar;
 
 var pathfinder;
 var walkables;
@@ -46,47 +37,36 @@ Tankk.Game.prototype = {
         this.map.addTilesetImage("Bush_01", "Bush_01");
         this.map.addTilesetImage("BrokenChopper", "BrokenChopper");
         this.map.addTilesetImage("Humvee_Broken_05", "Humvee_Broken_05");    
-        this.map.addTilesetImage("Base", "Base");    
-
-        //Layers
+        this.map.addTilesetImage("Base", "Base");   
         
-        this.dirt = this.map.createLayer("WalkArea");
+        this.walkArea = this.map.createLayer("WalkArea");
         this.dirt = this.map.createLayer("Dirt");
         this.track = this.map.createLayer("Roads");
         this.base = this.map.createLayer("Base");
         this.obstacle = this.map.createLayer("Obstacle");
-
+        
+        this.base.health = 100;
 
         this.map.setCollisionBetween(216, 300, true, "Obstacle");
         this.map.setCollisionBetween(300, 335, true, "Base");
         
-        /*this.dirt.scale.setTo(0.7);
-        this.track.scale.setTo(0.7);
-        this.base.scale.setTo(0.7);
-        this.trees.scale.setTo(0.7);
-        this.obstacle.scale.setTo(0.7);*/
-        this.dirt.resizeWorld();  //Find alternative?? 
-        //this.world.setBounds(0, 0, 1270, 1270);
-        
-        
-
-        /*if(this.game.width > 1450) { //Compatibility for larger monitors
-            this.game.width = 1450;
-        }*/
+        this.dirt.resizeWorld();  
 
         enemyCount = waveE;
         score = 0;/*
-
         this.createObjects();*/
         this.createBullets();
+        this.createEnemyBullets();
         this.createPlayer();        
         this.createEnemies(waveE);
+        
+        this.updateHealth;
 
         //UI
-        healthBar = this.game.add.sprite(this.game.world.width/2, this.game.world.height - 50, "healthBar");
+        healthBar = this.game.make.sprite(0, -50, "healthBar");
         healthBar.anchor.setTo(0.5);
-        healthBar.scale.setTo(3, 1);
-        healthBar.fixedToCamera = true;  
+        healthBar.scale.setTo(0.3, 0.2);
+        this.player.addChild(healthBar);
 
         scoreText = this.game.add.text(this.game.world.width/6, 30, "Score = " + score, {        
             font: "30px Arial",
@@ -115,6 +95,7 @@ Tankk.Game.prototype = {
         //create local variables
         myGame = this.game; 
         myBullets = this.bullets;
+        enemyBullets = this.enemyBullets;
 
         //Audio
         tankIdle = myGame.add.audio("tankIdle");
@@ -134,7 +115,6 @@ Tankk.Game.prototype = {
         /*
         music = myGame.add.audio("GameMusic");
         music.play("", 0, 0.7, true);
-
         collect = myGame.add.audio("collect");
         loseLife = myGame.add.audio("loseLife");
         shoot = myGame.add.audio("shoot");
@@ -146,7 +126,6 @@ Tankk.Game.prototype = {
         myPlayer = this.player;
         myTurret = this.turret;
         myEnemies = this.enemies;
-        //myPills = this.pills;
         myGame.world.bringToTop(healthBar);  
         
         //console.log(myGame.physics.arcade.distanceBetween(myGame.input.activePointer, myPlayer));
@@ -159,7 +138,7 @@ Tankk.Game.prototype = {
         myTurret.rotation = myGame.physics.arcade.angleToPointer(myPlayer) + 1.571 - myPlayer.rotation; //Pi/2  
 
         //Mouse/Touch input
-        if((myGame.input.mousePointer.isDown || myGame.input.activePointer.isDown) && (myGame.physics.arcade.distanceBetween(myGame.input.activePointer, myPlayer) > 130)) {   
+        if((myGame.input.mousePointer.isDown || myGame.input.activePointer.isDown) && (myGame.physics.arcade.distanceBetween(myGame.input.activePointer, myPlayer) > 110)) {   
             this.fire();
         }
 
@@ -190,12 +169,21 @@ Tankk.Game.prototype = {
         } else {
             tankMove.stop();
         }
-        /*
+        
         //Enemy movement
+        /*
         myEnemies.forEach(function(enemy) {
             myGame.physics.arcade.moveToObject(enemy, myPlayer, enemy.speed);
             enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
         });*/
+        myEnemies.forEach(function(enemy) {
+            if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 200) {
+                enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
+        } else {
+            myGame.physics.arcade.moveToXY(enemy, 480, 650, enemy.speed);
+        }
+        });
+        
 
         //Collisions
         myGame.physics.arcade.collide(myPlayer, this.obstacle);        
@@ -206,17 +194,16 @@ Tankk.Game.prototype = {
         myGame.physics.arcade.collide(myPlayer, myEnemies, this.enemyCollide, null, this);
         myGame.physics.arcade.collide(myBullets, myEnemies, this.killEnemy, null, this);
         myGame.physics.arcade.collide(myBullets, this.base, this.killBullet, null, this);
+        myGame.physics.arcade.collide(enemyBullets, this.base, this.baseHit, null, this);
         //myGame.physics.arcade.overlap(myPlayer, myPills, this.collectPill, null, this);
         
         
     },
     createObjects: function() {
         /*this.pills = this.game.add.physicsGroup();    
-
         var one = this.game.add.sprite(255, 670, "pill");
         var two = this.game.add.sprite(1230, 105, "pill");
         var three = this.game.add.sprite(1357, 1228, "pill");
-
         this.pills.add(one);
         this.pills.add(two);
         this.pills.add(three);*/
@@ -230,7 +217,7 @@ Tankk.Game.prototype = {
     enemyCollide: function(player, enemy) {
         player.health -= 10;
         score -= 10;
-
+        
         //check for loss
         if(myPlayer.health <= 0) {
             playerExplode.play("", 0, 0.7);
@@ -300,6 +287,11 @@ Tankk.Game.prototype = {
     killBullet: function(bullet, wall) {       
         bullet.kill();
     },
+    baseHit: function(bullet, base) {       
+        bullet.kill();
+        
+        this.base.health -= 5;
+    },
     createPlayer: function() {
         this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, "player");
         this.player.frame = 0;
@@ -310,8 +302,6 @@ Tankk.Game.prototype = {
         this.player.body.allowRotation = false;
 
         this.player.health = 100;
-
-        //this.game.camera.follow(this.player); 
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
         
@@ -336,6 +326,17 @@ Tankk.Game.prototype = {
         this.bullets.setAll("anchor.x", 0.5);
         this.bullets.setAll("anchor.y", 0.5);
     },
+    createEnemyBullets: function() {
+        this.enemyBullets = this.game.add.physicsGroup();
+        this.enemyBullets.enableBody = true;
+        this.enemyBullets.physicsbodyType = Phaser.Physics.ARCADE;
+
+        this.enemyBullets.createMultiple(50, "bullet");
+        this.enemyBullets.setAll("checkWorldBounds", true);
+        this.enemyBullets.setAll("outOfBoundsKill", true);
+        this.enemyBullets.setAll("anchor.x", 0.5);
+        this.enemyBullets.setAll("anchor.y", 0.5);
+    },
     createEnemies: function(n) {
         var egame = this.game;
         this.enemies = this.game.add.group();
@@ -353,23 +354,19 @@ Tankk.Game.prototype = {
                 console.log(rand);
                 eMaker = egame.add.sprite(locX[rand], locY[rand], "enemy");
                 egame.physics.arcade.enable(eMaker);
+                eMaker.health = 60;
+                eMaker.speed = 80;
+                eMaker.anchor.setTo(0.5, 0.5);
+                eMaker.scale.setTo(0.7);
+                eTurret = egame.make.sprite(-64, -70, "eTurret"); //Spawn location for bullets
+                console.log("adding turret");
+                blank.anchor.setTo(0.5);
+                eMaker.addChild(eTurret);
                 eE.add(eMaker);
                 }, i * 500);
 
             }(i));            
         }
-
-        this.enemies.forEach(function(enemy) {
-            enemy.health = 60;
-            enemy.speed = 80;
-            enemy.anchor.setTo(0.5, 0.5);
-            enemy.scale.setTo(0.8);
-            
-            eTurret = egame.make.sprite(-64, -70, "eTurret"); //Spawn location for bullets
-            blank.anchor.setTo(0.5);
-            enemy.addChild(eTurret);
-            //enemy.body.collideWorldBounds = true;
-        });
     },
     fire:  function() {           
         if(myGame.time.now > nextFire) {
@@ -381,6 +378,18 @@ Tankk.Game.prototype = {
             bullet.reset(blank.world.x, blank.world.y);
             bullet.rotation = myGame.physics.arcade.angleToPointer(bullet) + 1.571; //Pi/2
             myGame.physics.arcade.moveToPointer(bullet, 1500);
+        }
+    },
+    enemyFire:  function() {           
+        if(myGame.time.now > enemyNextFire) {
+            tankFire.play("", 0, 0.3);
+            nextFire = myGame.time.now + enemyFireRate;
+
+            enemyBullet = this.bullets.getFirstDead();
+
+            enemyBullet.reset(blank.world.x, blank.world.y);
+            enemyBullet.rotation = myGame.physics.arcade.angleToPointer(bullet) + 1.571; //Pi/2
+            myGame.physics.arcade.moveToPointer(enemyBullet, 1500);
         }
     },
     explode: function(target) {
@@ -406,26 +415,26 @@ Tankk.Game.prototype = {
     },
     updateHealth: function() {        
         if(myPlayer.health == 100) {
-            healthBar.frame = 0;
+            healthBar.frame = 10;
         } else if(myPlayer.health == 90) {
-            healthBar.frame = 1;
+            healthBar.frame = 9;
         } else if(myPlayer.health == 80) {
-            healthBar.frame = 2;
+            healthBar.frame = 8;
         } else if(myPlayer.health == 70) {
-            healthBar.frame = 3;
+            healthBar.frame = 7;
         } else if(myPlayer.health == 60) {
-            healthBar.frame = 4;
+            healthBar.frame = 6;
         } else if(myPlayer.health == 50) {
             healthBar.frame = 5;
         } else if(myPlayer.health == 40) {
-            healthBar.frame = 6;
+            healthBar.frame = 4;
         } else if(myPlayer.health == 30) {
-            healthBar.frame = 7;
+            healthBar.frame = 3;
         } else if(myPlayer.health == 20) {
-            healthBar.frame = 8;
+            healthBar.frame = 2;
         } else if(myPlayer.health == 10) {
-            healthBar.frame = 9;
-        } 
+            healthBar.frame = 1;
+        }
     },
     findPathFrom: function(tilex, tiley) {
         pathfinder.setCallbackFunction(this.processPath);
