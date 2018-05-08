@@ -7,6 +7,7 @@ Phaser tank game in 3-man group with Leandro Santos, Joashua Ruane and Myself
 * EasyStar.js Guide - https://developer.tizen.org/community/tip-tech/using-easystar.js-implement-pathfinding-tizen-game-projects
 * Eastar.js - https://github.com/prettymuchbryce/easystarjs
 * Bullet Asset - https://opengameart.org/content/bullet-collection-1-m484
+* Player Health Bar - https://opengameart.org/content/health-bar
 
 ### Audio:
 * Player explosion - https://www.zapsplat.com/music/car-explosion-bomb-debris/
