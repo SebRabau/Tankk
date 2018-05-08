@@ -11,6 +11,10 @@ Tankk.Preload.prototype = {
         this.preloadBar.anchor.setTo(0.5); 
         this.load.setPreloadSprite(this.preloadBar);
         
+        this.background = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 128, "background"); 
+        this.background.anchor.setTo(0.5); 
+        this.load.setPreloadSprite(this.background);
+        
         //Load Sprites (Formatting shown below)
         //this.load.tilemap("map", "maps/DeltaZone.json", null, Phaser.Tilemap.TILED_JSON);
         //this.load.image("tiles", "maps/tiles.png");

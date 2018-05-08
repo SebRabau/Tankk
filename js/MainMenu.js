@@ -12,10 +12,12 @@ Tankk.MainMenu.prototype = {
         this.game.world.width = window.innerWidth;
         this.game.world.height = window.innerHeight;
                 
-        this.backgroundColor = "#fff";
+        var background = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 50, "background");
+        background.anchor.setTo(0.5);
+        background.scale.setTo(0.4);
 
         var logo = this.add.sprite(this.game.world.centerX, 100, "logo");
-        logo.anchor.setTo(0.5);
+        logo.anchor.setTo(0.5);        
         
         //Menu Music
         music = this.game.add.audio("MenuMusic");
