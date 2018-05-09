@@ -14,10 +14,10 @@ Tankk.MainMenu.prototype = {
                 
         var background = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 50, "background");
         background.anchor.setTo(0.5);
-        background.scale.setTo(0.4);
+        //background.scale.setTo(0.8);
 
-        var logo = this.add.sprite(this.game.world.centerX, 100, "logo");
-        logo.anchor.setTo(0.5);        
+        //var logo = this.add.sprite(this.game.world.centerX, 100, "logo");
+        //logo.anchor.setTo(0.5);        
         
         //Menu Music
         music = this.game.add.audio("MenuMusic");
@@ -30,12 +30,14 @@ Tankk.MainMenu.prototype = {
         instructions.visible = 0; 
         
         //Buttons
-        EButton = this.add.button(this.game.world.centerX, this.game.world.centerY, "menuButtons", function() {
+        EButton = this.add.button(this.game.world.centerX + 70 , this.game.world.centerY + 162, "playButton", function() {
             music.stop();
             this.game.state.start("Game", [waveN = 1, waveE = 5]);
         }, this, 0, 2, 1, 0);
         EButton.anchor.setTo(0.5);
+        EButton.scale.setTo(0.07);
         
+        /*
         MButton = this.add.button(this.game.world.centerX, this.game.world.centerY + 75, "menuButtons", function() {
             music.stop();
             this.game.state.start("Game", [waveN = 5, waveE = 15]);
@@ -57,13 +59,14 @@ Tankk.MainMenu.prototype = {
             HButton.inputEnabled = false;
         }, this, 6, 8, 7, 6);
         insButton.anchor.setTo(0.5);
-
+*/
         //highest score
         var text = "Highest score: "+this.highestScore+" set by "+this.HighscoreName;
-        var style = { font: "15px Arial", fill: "#000", align: "center" };
+        var style = { font: "24px Arial", fill: "#000", align: "center" };
 
-        var h = this.game.add.text(this.game.world.centerX, this.game.world.centerY - 48, text, style);
+        var h = this.game.add.text(this.game.world.centerX +80, this.game.world.centerY + 280, text, style);
         h.anchor.set(0.5);
+        
     },
     init: function(score) {
         var score = score || 0;
@@ -80,11 +83,11 @@ Tankk.MainMenu.prototype = {
     },
     update: function() {
         if(this.game.input.activePointer.justPressed()) {
-            instructions.visible = 0;
-            insButton.inputEnabled = true;
+            //instructions.visible = 0;
+            //insButton.inputEnabled = true;
             EButton.inputEnabled = true;
-            MButton.inputEnabled = true;
-            HButton.inputEnabled = true;
+            //MButton.inputEnabled = true;
+            //HButton.inputEnabled = true;
         }
     }
 }

@@ -4,8 +4,8 @@ Tankk.Preload = function(){};
 
 Tankk.Preload.prototype = {
     preload: function() {
-        this.splash = this.add.sprite(this.game.world.centerX, 50, "logo");
-        this.splash.anchor.setTo(0.5);
+        //this.splash = this.add.sprite(this.game.world.centerX, 50, "logo");
+        //this.splash.anchor.setTo(0.5);
         
         this.preloadBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 128, "preloadBar"); 
         this.preloadBar.anchor.setTo(0.5); 
@@ -35,7 +35,8 @@ Tankk.Preload.prototype = {
 
         //other
         this.load.spritesheet("healthBar", "assets/healthBar.png", 378, 38, 12);
-        this.load.spritesheet("menuButtons", "assets/menuButtons.png", 200, 50, 12);
+        this.load.image("playButton", "assets/playbutton.png");
+        //this.load.spritesheet("menuButtons", "assets/menuButtons.png", 200, 50, 12);
         this.load.spritesheet("explosion", "assets/Animations/Explosion2/1Single.png", 452, 512, 8);
         this.load.image("player", "assets/Tanks/ACS/Source/ACS_Base.png");
         this.load.image("turret", "assets/Tanks/ACS/Source/ACS_Tower.png");
