@@ -183,8 +183,8 @@ Tankk.Game.prototype = {
 
         //Collisions
         myGame.physics.arcade.collide(myPlayer, this.walkArea);        
-        myGame.physics.arcade.collide(myEnemies, this.walkArea);
-        myGame.physics.arcade.collide(myEnemies, myEnemies);
+        //myGame.physics.arcade.collide(myEnemies, this.walkArea);
+        //myGame.physics.arcade.collide(myEnemies, myEnemies);
         myGame.physics.arcade.collide(myPlayer, myEnemies, this.enemyCollide, null, this);
         myGame.physics.arcade.collide(myBullets, myEnemies, this.killEnemy, null, this);
         myGame.physics.arcade.collide(myBullets, this.base, this.killBullet, null, this);
@@ -266,43 +266,58 @@ Tankk.Game.prototype = {
         var A = this;
         
         enemyGrp.forEach(function(enemy) {
-            if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 300) {
+            if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 150) {
                 enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
+                enemy.body.velocity.x = 0;
+                enemy.body.velocity.y = 0;
                 A.enemyFire(enemy, -150, -150);
                 A.enemyFire(enemy, 150, 150);
-        } else {
-            //myGame.physics.arcade.moveToXY(enemy, 480, 650, enemy.speed);
-            enemy.tileX = Math.floor(enemy.x/32) - 1;
-            enemy.tileY = Math.floor(enemy.y/32) - 1;
-            //console.log(enemy.tileX + " " + enemy.tileY);
-            if (enemy.pathToBase.length !== 0) {
-                //check if at current destination tile
-                if (enemy.tileX === enemy.pathToBase[0].x && enemy.tileY === enemy.pathToBase[0].y) {
-                    //check whether there are any more tiles in path
-                    if (enemy.pathToBase.length > 1) {
-                        console.log(enemy.pathToBase.length);
-                        //get next destination tile
-                        enemy.pathToBase.shift();
-                        //console.log("Next destination tile: " + enemy.pathToBase[0].x + " " + enemy.pathToBase[0].y);
-                        // calculate move direction
-                        enemy.xDir = enemy.pathToBase[0].x - enemy.tileX;
-                        enemy.yDir = enemy.pathToBase[0].y - enemy.tileY;
-                        console.log("Next: " + enemy.pathToBase[0].x + " " + enemy.pathToBase[0].y);
-                        //console.log("X Dir: " + enemy.xDir + " Y Dir: " + enemy.yDir);
-                    } else {
-                        // no more tiles in path so must be at final destination
-                        enemy.pathToBase = [];
-                        enemy.xDir = 0;
-                        enemy.yDir = 0;
-                    }
-                } // end of getting next tile in path
+            } 
+            else {
+                //myGame.physics.arcade.moveToXY(enemy, 480, 650, enemy.speed);
+                enemy.tileX = Math.floor(enemy.x/32) - 1;
+                enemy.tileY = Math.floor(enemy.y/32) - 1;
+                //console.log(enemy.tileX + " " + enemy.tileY);
+                if (enemy.pathToBase.length !== 0) {
+                    //check if at current destination tile
+                    if (enemy.tileX === enemy.pathToBase[0].x && enemy.tileY === enemy.pathToBase[0].y) {
+                        //check whether there are any more tiles in path
+                        if (enemy.pathToBase.length > 1) {
+                            //console.log(enemy.pathToBase);
+                            //get next destination tile
+                            enemy.pathToBase.shift();
+                            //console.log("Next destination tile: " + enemy.pathToBase[0].x + " " + enemy.pathToBase[0].y);
+                            // calculate move direction
+                            enemy.xDir = enemy.pathToBase[0].x - enemy.tileX;
+                            enemy.yDir = enemy.pathToBase[0].y - enemy.tileY;
+                            console.log("Next: " + enemy.pathToBase[0].x + " " + enemy.pathToBase[0].y);
+                            //console.log("X Dir: " + enemy.xDir + " Y Dir: " + enemy.yDir);
+                        } else {
+                            // no more tiles in path so must be at final destination
+                            enemy.pathToBase = [];
+                            enemy.xDir = 0;
+                            enemy.yDir = 0;
+                        }
+                    } // end of getting next tile in path
                 
-            }
+                }
             //console.log("Next X: " + enemy.pathToBase[0].x + " Next Y: " + enemy.pathToBase[0].y);
             //myGame.physics.arcade.moveToXY(enemy, enemy.pathToBase[0].x, enemy.pathToBase[0].y, enemy.speed);
+            if (enemy.xDir === 1) {
+                enemy.angle = -90;
+            }
+            else if (enemy.xDir === -1) {
+                enemy.angle = 90;
+            }
+            else if (enemy.yDir === 1) {
+                enemy.angle = 0;
+            }
+            else if (enemy.yDir === -1) {
+                enemy.angle = 180;
+            }
             enemy.body.velocity.x = enemy.xDir * enemy.speed;
             enemy.body.velocity.y = enemy.yDir * enemy.speed;
-        }
+            }
         }); 
     },
     killEnemy: function(bullet, enemy) {        
@@ -502,17 +517,20 @@ Tankk.Game.prototype = {
         }
     },
     findPathFrom: function(tilex, tiley) {
+        var destX = [12, 17, 12, 17];
+        var destY = [15, 15, 20, 20];
+        var rand = Math.round(Math.floor(Math.random() * 4));
         pathfinder.setCallbackFunction(this.processPath);
-        pathfinder.preparePathCalculation([tilex, tiley], [16, 14]);
+        pathfinder.preparePathCalculation([tilex, tiley], [destX[rand], destY[rand]]);
         path = pathfinder.calculatePath();
     },
     processPath: function(path) {
         var mymap = this.map;
         path_ary = path || [];
         //console.log("Process path path: " + path_ary);
-        /*for (var i = 0, ilen = path_ary.length; i < ilen; i++) {
+        for (var i = 0, ilen = path_ary.length; i < ilen; i++) {
             console.log(">>>" + path_ary[i].x + " " + path_ary[i].y);
-        }*/
+        }
         return path_ary;
     }
 };
