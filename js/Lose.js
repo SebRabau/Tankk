@@ -21,10 +21,18 @@ Tankk.Lose.prototype = {
         });
         waveText.anchor.setTo(0.5);
         
+        /*
         var restartButton = this.add.button(window.innerWidth/2, window.innerHeight/2 + 200, "PlayAgainBTN", function() {
             this.game.sound.stopAll();
             this.state.start("MainMenu", true, false, score);            
         }, this, 1, 0, 2, 0);
+        restartButton.anchor.setTo(0.5);*/
+        
+        var restartButton = this.add.button(window.innerWidth/2, window.innerHeight/2 + 200, "playButton", function() {
+            this.game.sound.stopAll();
+            this.state.start("MainMenu", true, false, score);            
+        }, this, 1, 0, 2, 0);
         restartButton.anchor.setTo(0.5);
+        restartButton.scale.setTo(0.07);
     }
 }
