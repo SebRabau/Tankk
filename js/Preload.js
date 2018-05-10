@@ -4,9 +4,9 @@ Tankk.Preload = function(){};
 
 Tankk.Preload.prototype = {
     preload: function() {
-        this.logo = this.add.sprite(this.game.world.centerX, 250, "logo");
-        this.logo.anchor.setTo(0.5);
-        this.logo.scale.setTo(0.3);
+        var logo = this.add.sprite(this.game.world.centerX, 250, "logo");
+        logo.anchor.setTo(0.5);
+        logo.scale.setTo(0.3);
         
         this.preloadBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 128, "preloadBar"); 
         this.preloadBar.anchor.setTo(0.5); 
