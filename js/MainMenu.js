@@ -11,9 +11,6 @@ Tankk.MainMenu.prototype = {
     create: function() {
         this.game.world.width = window.innerWidth;
         this.game.world.height = window.innerHeight;
-        
-        this.background = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 128, "background"); 
-        this.background.anchor.setTo(0.5);
                 
         var background = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 50, "background");
         background.anchor.setTo(0.5);
@@ -51,9 +48,9 @@ Tankk.MainMenu.prototype = {
             music.stop();
             this.game.state.start("Game", [waveN = 10, waveE = 30]);
         }, this, 3, 5, 4, 3);
-        HButton.anchor.setTo(0.5);
+        HButton.anchor.setTo(0.5);*/
         
-        insButton = this.add.button(this.game.world.centerX, this.game.world.centerY - 100, "menuButtons", function() {
+        insButton = this.add.button(this.game.world.centerX + 170, this.game.world.centerY + 162, "instructButton", function() {
             instructions.visible = 1;
             this.game.world.bringToTop(instructions);
             insButton.inputEnabled = false;
@@ -62,7 +59,8 @@ Tankk.MainMenu.prototype = {
             HButton.inputEnabled = false;
         }, this, 6, 8, 7, 6);
         insButton.anchor.setTo(0.5);
-*/
+        insButton.scale.setTo(0.3);
+
         //highest score
         var text = "Highest score: "+this.highestScore+" set by "+this.HighscoreName;
         var style = { font: "24px Arial", fill: "#000", align: "center" };
