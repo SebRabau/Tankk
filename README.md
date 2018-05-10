@@ -1,7 +1,7 @@
 # Tankk
 Phaser tank game in 3-man group with Leandro Santos, Joashua Ruane and Myself
 
-# IMPORTANT UPDATE TO CHROME SOUNDS
+# **IMPORTANT UPDATE TO CHROME SOUNDS**
 https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
 
 Recently a new update has been released for chrome whereby autoplaying will automatically be muted. In order to un-mute sounds in chrome, type chrome://flags/#autoplay-policy in the chrome url bar, and change the value of the Chrome flag "Autoplay Policy" to "No user gesture is required" to disable this feature.  
