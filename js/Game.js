@@ -23,6 +23,7 @@ var enemyCount;
 var healthBar;
 var eblank;
 var baseHealth;
+var explosion;
 
 var pathfinder;
 var walkables;
@@ -182,8 +183,6 @@ Tankk.Game.prototype = {
         myGame.physics.arcade.collide(myEnemies, myEnemies, this.enemyOnEnemy, null, this);
         myGame.physics.arcade.collide(myPlayer, myEnemies, this.enemyCollide, null, this);
         myGame.physics.arcade.collide(myBullets, myEnemies, this.killEnemy, null, this);
-        myGame.physics.arcade.collide(myBullets, this.base, this.killBullet, null, this);
-        myGame.physics.arcade.collide(myBullets, this.obstacle, this.killBullet, null, this);
         myGame.physics.arcade.collide(myBullets, this.base, this.playerHitBase, null, this);
         myGame.physics.arcade.collide(enemyBullets, this.base, this.baseHit, null, this);
         myGame.physics.arcade.overlap(myPlayer, enemyBullets, this.playerHit, null, this);
@@ -258,8 +257,7 @@ Tankk.Game.prototype = {
             }
             this.updateWaveE();
         }
-    },
-    
+    },    
     updateEnemies: function(enemyGrp) {
         var A = this;
 
@@ -270,7 +268,7 @@ Tankk.Game.prototype = {
                 enemy.body.velocity.y = 0;
                 A.enemyFire(enemy, -50, -50, myPlayer);
                 A.enemyFire(enemy, 50, 50, myPlayer);
-            } else if(myGame.physics.arcade.distanceBetween(enemy, A.baseXY) < 220) {
+            } else if(myGame.physics.arcade.distanceBetween(enemy, A.baseXY) < 230) {
                 enemy.rotation = myGame.physics.arcade.angleToXY(enemy, A.baseXY.x, A.baseXY.y) + 4.713; // 3Pi/2
                 enemy.body.velocity.x = 0;
                 enemy.body.velocity.y = 0;
@@ -359,11 +357,11 @@ Tankk.Game.prototype = {
         bullet.kill();        
         baseHealth.health -= 0.1;
         this.updateBaseHealth();
-    },
-    
-    playerHitBase: function(bullet, base) {       
+    },    
+    playerHitBase: function(bullet, base) { 
+        console.log("hit"); 
         bullet.kill();        
-        baseHealth.health -= 1;
+        baseHealth.health -= 5;
         this.updateBaseHealth();
     },
     createPlayer: function() {
@@ -435,7 +433,7 @@ Tankk.Game.prototype = {
                     A.findPathFrom(eMaker.tileX, eMaker.tileY);
                     eMaker.pathToBase = path_ary;
                     eMaker.health = 60;
-                    eMaker.speed = 80;
+                    eMaker.speed = 90;
                     eMaker.enemyFireRate = 150;
                     eMaker.enemyNextFire = 0;
                     eMaker.anchor.setTo(0.5, 0.5);
@@ -446,7 +444,7 @@ Tankk.Game.prototype = {
                     eMaker.eblank = egame.make.sprite(65, 160, "blank"); //Spawn location for bullets
                     eMaker.eblank.anchor.setTo(0.5);
                     eTurret.addChild(eMaker.eblank);
-                }, i * 500);
+                }, i * 700);
 
             }(i));            
         }
@@ -480,17 +478,13 @@ Tankk.Game.prototype = {
             myGame.physics.arcade.moveToXY(enemyBullet, target.x, target.y, 400);
         }
     },
-    explode: function(target) {
-        var emitter = this.game.add.emitter(target.x, target.y, 100);
-        emitter.makeParticles("player");
-        //emitter.makeParticles("particle");
-        emitter.minParticleSpeed.setTo(-200, -200);
-        emitter.maxParticleSpeed.setTo(200, 200);
-        emitter.gravity = 0;
-        emitter.start(true, 250, null, 100);
-        myGame.time.events.add(250, function() {
-            emitter.destroy();
-        });
+    explode: function(target) {        
+        //Animation
+        explosion = this.game.add.sprite(target.x, target.y, "explosion");
+        explosion.anchor.setTo(0.5);
+        explosion.scale.setTo(0.4);
+        explosion.animations.add("boom");
+        explosion.animations.play("boom", 20, false, true);
     },
     updateScore: function() {
         scoreText.setText("Score = "+score);
