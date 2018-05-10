@@ -42,7 +42,7 @@ Tankk.Preload.prototype = {
         this.load.image("blank", "assets/blank.png");
         this.load.image("bullet", "assets/Bullet.png");
         this.load.spritesheet("baseHealth", "assets/BaseHealth.png", 200, 75, 21);
-        
+        this.load.image("instructions", "assets/instructions2.png");
         this.load.image("banner", "assets/banner.png");
         
         //Load Audio (Formatting shown below)

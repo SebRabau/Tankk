@@ -26,7 +26,6 @@ Tankk.MainMenu.prototype = {
         //Instructions
         instructions = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 50, "instructions");
         instructions.anchor.setTo(0.5);
-        instructions.scale.setTo(0.6);
         instructions.visible = 0; 
         
         //Buttons
@@ -76,7 +75,7 @@ Tankk.MainMenu.prototype = {
     },
     update: function() {
         if(this.game.input.activePointer.justPressed()) {
-            //instructions.visible = 0;
+            instructions.visible = 0;
             //insButton.inputEnabled = true;
             EButton.inputEnabled = true;
             //MButton.inputEnabled = true;
