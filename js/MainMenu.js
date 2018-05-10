@@ -69,18 +69,7 @@ Tankk.MainMenu.prototype = {
         
     },
     init: function(score) {
-        var score = score || 0;
-        //this.highestScore = this.highestScore || 0;
-        
-        this.highestScore = localStorage.getItem("Highscore") || 0;
-        this.HighscoreName = localStorage.getItem("HighscoreName") || "undefined";
-        
-        if(score > this.highestScore) {
-            this.HighscoreName = prompt("You got a new High Score! Enter your name here: ");
-            this.highestScore = Math.max(score, this.highestScore);
-            localStorage.setItem("Highscore", this.highestScore);
-            localStorage.setItem("HighscoreName", this.HighscoreName);
-        }        
+        var score = score || 0;  
     },
     update: function() {
         if(this.game.input.activePointer.justPressed()) {
