@@ -64,12 +64,16 @@ Tankk.Game.prototype = {
         this.createEnemies(waveE);
 
         //UI
+        var banner = this.game.add.sprite(this.game.world.width/2, 44, "banner"); 
+        banner.anchor.setTo(0.5);
+        banner.scale.setTo(0.2);
+        
         healthBar = this.game.make.sprite(0, -50, "healthBar");
         healthBar.anchor.setTo(0.5);
         healthBar.scale.setTo(0.3, 0.2);
         this.player.addChild(healthBar);
 
-        scoreText = this.game.add.text(this.game.world.width/6, 30, "Score = " + score, {        
+        scoreText = this.game.add.text(this.game.world.width/3.2 - 10, 30, + score, {        
             font: "30px Arial",
             fill: "#fff",
             align: "center"
@@ -77,7 +81,7 @@ Tankk.Game.prototype = {
         scoreText.anchor.setTo(0.5);
         scoreText.fixedToCamera = true;
 
-        waveText = this.game.add.text(this.game.world.width/2, 30, "Wave " + waveN, {        
+        waveText = this.game.add.text(this.game.world.width/2+40, 65, + waveN, {        
             font: "30px Arial",
             fill: "#fff",
             align: "center"
@@ -85,7 +89,7 @@ Tankk.Game.prototype = {
         waveText.anchor.setTo(0.5);
         waveText.fixedToCamera = true;
 
-        enemyText = this.game.add.text(this.game.world.width - this.game.world.width/6, 30, enemyCount+" enemies left", {        
+        enemyText = this.game.add.text(this.game.world.width - this.game.world.width/8, 30, enemyCount+"", {        
             font: "30px Arial",
             fill: "#fff",
             align: "center"
