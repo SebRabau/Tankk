@@ -257,6 +257,7 @@ Tankk.Game.prototype = {
                 this.enemies.forEach(function(enemy) {enemy.health = 80; if(waveN >= 15) {enemy.speed = 140}});
             }
             this.updateWaveE();
+            this.updateScore();
         }
     },    
     updateEnemies: function(enemyGrp) {
