@@ -1,5 +1,10 @@
 # Tankk
-Phaser tank game in 3-man group with Leandro Santos, Joashua Ruane and Myself
+Phaser tank game in 3-man group with Leandro Santos, Joashua Ruane and Seb Rabau
+* Josh Ruane: 16821280       
+* Leandro Santos: 16849460  
+* Seb Rabau: 16851390
+
+Live version of the game can be run on the itsuite web drive at the following link: http://itsuite.it.brighton.ac.uk/sr687/Tankk/game.html
 
 # **IMPORTANT UPDATE TO CHROME SOUNDS**
 https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
