@@ -6,14 +6,20 @@ https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
 
 Recently a new update has been released for chrome whereby autoplaying will automatically be muted. In order to un-mute sounds in chrome, type chrome://flags/#autoplay-policy in the chrome url bar, and change the value of the Chrome flag "Autoplay Policy" to "No user gesture is required" to disable this feature.  
 
-## Assets:
-* Tank Assets - https://opengameart.org/content/2d-tanks-top-down
-* Tankk Logo - Created on flamingtext.co.uk
-* EasyStar.js Guide - https://developer.tizen.org/community/tip-tech/using-easystar.js-implement-pathfinding-tizen-game-projects
-* Eastar.js - https://github.com/prettymuchbryce/easystarjs
-* Bullet Asset - https://opengameart.org/content/bullet-collection-1-m484
-* Player Health Bar - https://opengameart.org/content/health-bar
-* Wings for base health - https://www.freepik.com/free-photos-vectors/wings
+##InGame Assets
+Tank Assets - https://graphicriver.net/item/tds-pixel-art-game-assets/20651122
+Environment Assets - https://graphicriver.net/item/tds-pixel-art-game-assets/20651122
+Animations - https://graphicriver.net/item/tds-pixel-art-game-assets/20651122
+Bullet Asset - https://opengameart.org/content/bullet-collection-1-m484
+
+##Scripts References
+Eastar.js - https://github.com/appsbu-de/phaser_plugin_pathfinding
+
+##UI
+Player Health Bar - https://opengameart.org/content/health-bar
+Tank On the Logo: https://www.vectorstock.com/royalty-free-vector/icon-military-tank-silhouette-vector-16392181
+Wings for base health - https://www.freepik.com/free-vector/wing-logos-in-flat-design_1171281.htm#term=wings&page=1&position=4
+Logo Font - https://fonts2u.com/after-attack.font
 
 ### Audio:
 * Player explosion - https://www.zapsplat.com/music/car-explosion-bomb-debris/
