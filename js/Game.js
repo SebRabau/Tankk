@@ -6,8 +6,6 @@ var fireRate = 800;
 var nextFire = 0;
 var bullet;
 var enemyBullet;
-var enemyFireRate = 150;
-var enemyNextFire = 0;
 
 var tankIdle;
 var tankMove;
@@ -431,6 +429,8 @@ Tankk.Game.prototype = {
                     //console.log("Enemy Path: " + eMaker.pathToBase);
                     eMaker.health = 60;
                     eMaker.speed = 80;
+                    eMaker.enemyFireRate = 150;
+                    eMaker.enemyNextFire = 0;
                     eMaker.anchor.setTo(0.5, 0.5);
                     eMaker.scale.setTo(0.7);
                     eTurret = egame.make.sprite(-64, -70, "eTurret"); //Spawn location for turret                
@@ -457,12 +457,12 @@ Tankk.Game.prototype = {
         }
     },
     enemyFire:  function(enemy, gx, gy) {           
-        if(myGame.time.now > enemyNextFire) {
+        if(myGame.time.now > enemy.enemyNextFire) {
             gx = gx || 0;
             gy = gy || 0;
             
             tankFire.play("", 0, 0.1);
-            enemyNextFire = myGame.time.now + enemyFireRate;
+            enemy.enemyNextFire = myGame.time.now + enemy.enemyFireRate;
 
             enemyBullet = this.enemyBullets.getFirstDead();
             
