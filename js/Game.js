@@ -504,13 +504,13 @@ Tankk.Game.prototype = {
         explosion.animations.play("boom", 30, false, true);
     },
     updateScore: function() {
-        scoreText.setText("Score = "+score);
+        scoreText.setText(""+score);
     },
     updateWaveN: function() {
-        waveText.setText("Wave "+waveN);
+        waveText.setText(""+waveN);
     },
     updateWaveE: function() {
-        enemyText.setText(enemyCount+" enemies left");
+        enemyText.setText(enemyCount+"");
     },
     updateHealth: function() {        
         if(myPlayer.health <= 100 && myPlayer.health > 90) {
