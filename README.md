@@ -1,6 +1,11 @@
 # Tankk
 Phaser tank game in 3-man group with Leandro Santos, Joashua Ruane and Myself
 
+# IMPORTANT UPDATE TO CHROME SOUNDS
+https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
+
+Recently a new update has been released for chrome whereby autoplaying will automatically be muted. In order to un-mute sounds in chrome, type chrome://flags/#autoplay-policy in the chrome url bar, and change the value of the Chrome flag "Autoplay Policy" to "No user gesture is required" to disable this feature.  
+
 ## Assets:
 * Tank Assets - https://opengameart.org/content/2d-tanks-top-down
 * Tankk Logo - Created on flamingtext.co.uk
@@ -16,3 +21,4 @@ https://www.freepik.com/free-photos-vectors/wings
 * Dirt sound - https://www.zapsplat.com/music/car-wheels-roll-with-engine-off-on-dirt-track-short-distance-then-stop-2/
 * Engine sound - https://www.zapsplat.com/music/car-1950-mercury-255-ci-flathead-engine-idle/
 * Tank fire sound - https://www.zapsplat.com/music/grenade-explosion-debris-blast/
+* Enemy fire sound - https://www.zapsplat.com/music/gun-pistol-single-shot-silenced-walther-pp7/
