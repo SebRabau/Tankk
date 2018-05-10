@@ -107,7 +107,7 @@ Tankk.Game.prototype = {
         
         //Pathfinding
         pathfinder = myGame.plugins.add(Phaser.Plugin.PathFinderPlugin);
-        walkables = [45];
+        walkables = [45, 46];
         //console.log(this.map.layers[0].data);
         pathfinder.setGrid(this.map.layers[1].data, walkables);
         //this.findPathFrom(1, 4);
@@ -183,6 +183,8 @@ Tankk.Game.prototype = {
         myGame.physics.arcade.collide(myPlayer, myEnemies, this.enemyCollide, null, this);
         myGame.physics.arcade.collide(myBullets, myEnemies, this.killEnemy, null, this);
         myGame.physics.arcade.collide(myBullets, this.base, this.killBullet, null, this);
+        myGame.physics.arcade.collide(myBullets, this.obstacle, this.killBullet, null, this);
+        myGame.physics.arcade.collide(myBullets, this.base, this.playerHitBase, null, this);
         myGame.physics.arcade.collide(enemyBullets, this.base, this.baseHit, null, this);
         myGame.physics.arcade.overlap(myPlayer, enemyBullets, this.playerHit, null, this);
         //myGame.physics.arcade.overlap(myPlayer, myPills, this.collectPill, null, this);
@@ -356,6 +358,12 @@ Tankk.Game.prototype = {
     baseHit: function(bullet, base) {       
         bullet.kill();        
         baseHealth.health -= 0.1;
+        this.updateBaseHealth();
+    },
+    
+    playerHitBase: function(bullet, base) {       
+        bullet.kill();        
+        baseHealth.health -= 1;
         this.updateBaseHealth();
     },
     createPlayer: function() {
