@@ -447,7 +447,7 @@ Tankk.Game.prototype = {
                     eMaker.eblank = egame.make.sprite(65, 160, "blank"); //Spawn location for bullets
                     eMaker.eblank.anchor.setTo(0.5);
                     eTurret.addChild(eMaker.eblank);
-                }, i * 700);
+                }, i * 800);
 
             }(i));            
         }
