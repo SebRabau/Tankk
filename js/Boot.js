@@ -5,7 +5,7 @@ Tankk.Boot = function(){};
 Tankk.Boot.prototype = {
   preload: function() {
   	//assets used in the loading screen
-    //this.load.image("logo", "assets/tankkLogo.png");
+    this.load.image("logo", "assets/Logo.png");
     this.load.image("preloadBar", "assets/preloadBar.png");
     this.load.image("background", "assets/background.png");
 

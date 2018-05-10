@@ -11,6 +11,9 @@ Tankk.MainMenu.prototype = {
     create: function() {
         this.game.world.width = window.innerWidth;
         this.game.world.height = window.innerHeight;
+        
+        this.background = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 128, "background"); 
+        this.background.anchor.setTo(0.5);
                 
         var background = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 50, "background");
         background.anchor.setTo(0.5);
