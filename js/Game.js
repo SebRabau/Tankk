@@ -30,6 +30,7 @@ var path_ary;
 
 Tankk.Game.prototype = {
     create: function() {
+        //Map and Layers
         this.map = this.game.add.tilemap("map");         
         this.map.addTilesetImage("DirtToRoad", "DirtToRoad");
         this.map.addTilesetImage("Bush_02", "Bush_02");
@@ -52,9 +53,9 @@ Tankk.Game.prototype = {
         
         this.dirt.resizeWorld();  
 
+        //Create Objects
         enemyCount = waveE;
-        score = 0;/*
-        this.createObjects();*/
+        score = 0;
         this.createBullets();
         this.createEnemyBullets();
         this.createPlayer();        
@@ -90,7 +91,7 @@ Tankk.Game.prototype = {
         enemyText.anchor.setTo(0.5);
         enemyText.fixedToCamera = true;
 
-        //create local variables
+        //Create local variables
         myGame = this.game; 
         myBullets = this.bullets;
         enemyBullets = this.enemyBullets;
@@ -110,6 +111,7 @@ Tankk.Game.prototype = {
         pathfinder.setGrid(this.map.layers[1].data, walkables);
         //this.findPathFrom(1, 4);
         
+        //Base
         this.baseXY = this.game.add.sprite(this.game.world.width/2 - 10, this.game.world.height/2 + 110, "blank"); //enemy target for base
         this.baseXY.anchor.setTo(0.5);
         
@@ -118,15 +120,6 @@ Tankk.Game.prototype = {
         baseHealth.scale.setTo(0.6);
         baseHealth.health = 100;
         baseHealth.frame = 0;
-
-        /*
-        music = myGame.add.audio("GameMusic");
-        music.play("", 0, 0.7, true);
-        collect = myGame.add.audio("collect");
-        loseLife = myGame.add.audio("loseLife");
-        shoot = myGame.add.audio("shoot");
-        splat = myGame.add.audio("splat");
-        explode = myGame.add.audio("explode");*/
     },
     update: function() {
         //Update local variables
@@ -135,10 +128,8 @@ Tankk.Game.prototype = {
         myEnemies = this.enemies;
         this.updateHealth();
         myGame.world.bringToTop(healthBar);  
-        
-        //console.log(myGame.physics.arcade.distanceBetween(myGame.input.activePointer, myPlayer));
 
-        //reset player movement
+        //Reset player movement
         myPlayer.body.velocity.y = 0;
         myPlayer.body.velocity.x = 0;
 
@@ -166,32 +157,26 @@ Tankk.Game.prototype = {
             myPlayer.rotation += 0.05;
         }
         
-        //stop movement
+        //Stop movement
         if(myPlayer.body.velocity.x == 0) { 
            ismoving = false;
         }
         
-        //play tank sounds
+        //Play tank sounds
         if(ismoving) { 
             tankMove.play("", 0, 0.5, true, false);
         } else {
             tankMove.stop();
         }
         
-        //Enemy movement
-        /*
-        myEnemies.forEach(function(enemy) {
-            myGame.physics.arcade.moveToObject(enemy, myPlayer, enemy.speed);
-            enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
-        });*/
-        
+        //Update Enemies
         this.updateEnemies(myEnemies);
         
 
         //Collisions
         myGame.physics.arcade.collide(myPlayer, this.walkArea);        
         //myGame.physics.arcade.collide(myEnemies, this.walkArea);
-        //myGame.physics.arcade.collide(myEnemies, myEnemies);
+        myGame.physics.arcade.collide(myEnemies, myEnemies, this.enemyOnEnemy, null, this);
         myGame.physics.arcade.collide(myPlayer, myEnemies, this.enemyCollide, null, this);
         myGame.physics.arcade.collide(myBullets, myEnemies, this.killEnemy, null, this);
         myGame.physics.arcade.collide(myBullets, this.base, this.killBullet, null, this);
@@ -271,7 +256,7 @@ Tankk.Game.prototype = {
     },
     updateEnemies: function(enemyGrp) {
         var A = this;
-        
+
         enemyGrp.forEach(function(enemy) {
             if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 150 && myGame.physics.arcade.distanceBetween(enemy, A.baseXY) > 220) {
                 enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
@@ -286,35 +271,24 @@ Tankk.Game.prototype = {
                 A.enemyFire(enemy, -50, -50, A.baseXY);
                 A.enemyFire(enemy, 50, 50, A.baseXY);
             } else {
-                //myGame.physics.arcade.moveToXY(enemy, 480, 650, enemy.speed);
                 enemy.tileX = Math.floor(enemy.x/32) - 1;
                 enemy.tileY = Math.floor(enemy.y/32) - 1;
-                //console.log(enemy.tileX + " " + enemy.tileY);
                 if (enemy.pathToBase.length !== 0) {
-                    //check if at current destination tile
                     if (enemy.tileX === enemy.pathToBase[0].x && enemy.tileY === enemy.pathToBase[0].y) {
                         //check whether there are any more tiles in path
                         if (enemy.pathToBase.length > 1) {
-                            //console.log(enemy.pathToBase);
-                            //get next destination tile
+                            //Get NextTile
                             enemy.pathToBase.shift();
-                            //console.log("Next destination tile: " + enemy.pathToBase[0].x + " " + enemy.pathToBase[0].y);
-                            // calculate move direction
-                            enemy.xDir = enemy.pathToBase[0].x - enemy.tileX;
-                            enemy.yDir = enemy.pathToBase[0].y - enemy.tileY;
-                            //console.log("Next: " + enemy.pathToBase[0].x + " " + enemy.pathToBase[0].y);
-                            //console.log("X Dir: " + enemy.xDir + " Y Dir: " + enemy.yDir);
+                            enemy.xDir = enemy.pathToBase[0].x - enemy.tileX;//Left or right
+                            enemy.yDir = enemy.pathToBase[0].y - enemy.tileY;//Up or down
                         } else {
-                            // no more tiles in path so must be at final destination
                             enemy.pathToBase = [];
                             enemy.xDir = 0;
                             enemy.yDir = 0;
                         }
-                    } // end of getting next tile in path
-                
+                    }
                 }
-                //console.log("Next X: " + enemy.pathToBase[0].x + " Next Y: " + enemy.pathToBase[0].y);
-                //myGame.physics.arcade.moveToXY(enemy, enemy.pathToBase[0].x, enemy.pathToBase[0].y, enemy.speed);
+                //Face in correct direction
                 if (enemy.xDir === 1) {
                     enemy.angle = -90;
                 }
@@ -331,6 +305,14 @@ Tankk.Game.prototype = {
                 enemy.body.velocity.y = enemy.yDir * enemy.speed;
             }
         }); 
+    },
+    enemyOnEnemy: function(enemy1, enemy2) {
+        //If enemies collide, get new path for both models
+        var A = this;
+        A.findPathFrom(enemy1.tileX, enemy1.tileY);
+        enemy1.pathToBase = path_ary;
+        A.findPathFrom(enemy2.tileX, enemy2.tileY);
+        enemy2.pathToBase = path_ary;
     },
     killEnemy: function(bullet, enemy) {        
         enemy.health -= 100;
@@ -420,6 +402,7 @@ Tankk.Game.prototype = {
     createEnemies: function(n) {
         var egame = this.game;
         this.enemies = this.game.add.group();
+        //Pairs of coordinates representing the 5 spawn points
         var locX = [32, egame.world.width - 50, 70, 285, egame.world.width - 100];
         var locY = [128, 96, egame.world.height - 50, egame.world.height - 50, egame.world.height - 50];       
         var eMaker;
@@ -430,16 +413,15 @@ Tankk.Game.prototype = {
             (function(i){
                 window.setTimeout(function(){
                     var rand = Math.round(Math.floor(Math.random() * 5));
-                    //console.log(rand);
+                    //Randomly select spawn point
                     eMaker = egame.add.sprite(locX[rand], locY[rand], "enemy");
                     egame.physics.arcade.enable(eMaker);
+                    //Calculate start tile from spawn point
                     eMaker.tileX = Math.floor(locX[rand]/32) - 1;
                     eMaker.tileY = Math.floor(locY[rand]/32) - 1;
-                    //console.log("Tile X: " + eMaker.tileX);
-                    //console.log("Tile Y: " + eMaker.tileY);
+                    //Generate path from spawn point
                     A.findPathFrom(eMaker.tileX, eMaker.tileY);
                     eMaker.pathToBase = path_ary;
-                    //console.log("Enemy Path: " + eMaker.pathToBase);
                     eMaker.health = 60;
                     eMaker.speed = 80;
                     eMaker.enemyFireRate = 150;
@@ -576,20 +558,18 @@ Tankk.Game.prototype = {
         }
     },
     findPathFrom: function(tilex, tiley) {
+        //Pairs of destination coordinates for around base
         var destX = [11, 18, 11, 18];
         var destY = [14, 15, 21, 21];
+        //Randomly select destination tile
         var rand = Math.round(Math.floor(Math.random() * 4));
         pathfinder.setCallbackFunction(this.processPath);
-        pathfinder.preparePathCalculation([tilex, tiley], [destX[rand], destY[rand]]);
+        pathfinder.preparePathCalculation([tilex, tiley], [destX[rand], destY[rand]]);//Path from enemy location to base
         path = pathfinder.calculatePath();
     },
     processPath: function(path) {
         var mymap = this.map;
         path_ary = path || [];
-        //console.log("Process path path: " + path_ary);
-        for (var i = 0, ilen = path_ary.length; i < ilen; i++) {
-            //console.log(">>>" + path_ary[i].x + " " + path_ary[i].y);
-        }
         return path_ary;
     }
 };
