@@ -34,6 +34,7 @@ Tankk.Preload.prototype = {
         this.load.image("logo", "assets/logo.png");
         this.load.image("redo", "assets/redo.png");
         this.load.image("home", "assets/home.png");
+        this.load.image("instructButton", "assets/Instructions.png");
         this.load.spritesheet("healthBar", "assets/healthBar.png", 378, 38, 12);
         this.load.image("playButton", "assets/playbutton.png");
         //this.load.spritesheet("menuButtons", "assets/menuButtons.png", 200, 50, 12);
@@ -45,6 +46,8 @@ Tankk.Preload.prototype = {
         this.load.image("blank", "assets/blank.png");
         this.load.image("bullet", "assets/Bullet.png");
         this.load.spritesheet("baseHealth", "assets/BaseHealth.png", 200, 75, 21);
+        
+        this.load.image("banner", "assets/banner.png");
         
         //Load Audio (Formatting shown below)
         this.load.audio("MenuMusic", "assets/Audio/menuMusic.mp3");
