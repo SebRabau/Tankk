@@ -29,3 +29,40 @@ Recently a new update has been released for chrome whereby autoplaying will auto
 * Tank fire sound - https://www.zapsplat.com/music/grenade-explosion-debris-blast/
 * Enemy fire sound - https://www.zapsplat.com/music/gun-pistol-single-shot-silenced-walther-pp7/
 * Menu Music - "I Can Feel it Coming" Kevin MacLeod (incompetech.com) Licensed under Creative Commons: By Attribution 3.0 License http://creativecommons.org/licenses/by/3.0/
+
+## Licenses:
+
+LICENSE CERTIFICATE : Envato Market Item
+==============================================
+
+This document certifies the purchase of:
+ONE REGULAR LICENSE
+as defined in the standard terms and conditions on Envato Market.
+
+Licensor's Author Username:
+craftpix_net
+
+Licensee:
+Leandro Santos
+
+Item Title:
+TDS Pixel Art Game Assets
+
+Item URL:
+https://graphicriver.net/item/tds-pixel-art-game-assets/20651122
+
+Item ID:
+20651122
+
+Item Purchase Code:
+cf8b4cfc-f609-4596-baab-cefbe50cf585
+
+Purchase Date:
+2018-04-17 13:26:57 UTC
+
+For any queries related to this document or license please contact Help Team via https://help.author.envato.com
+
+Envato Pty. Ltd. (ABN 11 119 159 741)
+PO Box 16122, Collins Street West, VIC 8007, Australia
+
+==== THIS IS NOT A TAX RECEIPT OR INVOICE ====
