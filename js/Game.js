@@ -77,7 +77,7 @@ var Tankk = Tankk || {};
 
 Tankk.Game = function(){};
 
-[var fireRate = 650;
+var fireRate = 650;
 var nextFire = 0;
 var bullet;
 var enemyBullet;
@@ -102,7 +102,7 @@ var explosion;
 
 var pathfinder;
 var walkables;
-var path_ary;]
+var path_ary;
 
 Tankk.Game.prototype = {
     create: function() {
