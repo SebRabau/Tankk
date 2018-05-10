@@ -103,6 +103,7 @@ Tankk.Game.prototype = {
         tankIdle.play("", 0, 0.1, true);
         tankMove = myGame.add.audio("tankMove");
         tankFire = myGame.add.audio("tankFire");
+        eFire = myGame.add.audio("eFire");
         playerExplode = myGame.add.audio("playerExplode");
         enemyExplode = myGame.add.audio("enemyExplode");
         
@@ -262,7 +263,7 @@ Tankk.Game.prototype = {
         var A = this;
 
         enemyGrp.forEach(function(enemy) {
-            if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 200 && myGame.physics.arcade.distanceBetween(enemy, A.baseXY) > 220) {
+            if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 200 && myGame.physics.arcade.distanceBetween(enemy, A.baseXY) > 240) {
                 enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
                 enemy.body.velocity.x = 0;
                 enemy.body.velocity.y = 0;
@@ -343,7 +344,7 @@ Tankk.Game.prototype = {
                 this.updateWaveN();            
                 this.createEnemies(waveE);
                 if(waveN >= 10) {
-                    this.enemies.forEach(function(enemy) {enemy.health = 80; if(waveN >= 15) {enemy.speed = 140}});
+                    this.enemies.forEach(function(enemy) {enemy.health = 180; if(waveN >= 15) {enemy.speed = 140}});
                 }
                 this.updateWaveE();
             }
@@ -357,12 +358,23 @@ Tankk.Game.prototype = {
         bullet.kill();        
         baseHealth.health -= 0.1;
         this.updateBaseHealth();
+        
+        if(baseHealth.health <= 0) {
+            playerExplode.play("", 0, 0.7);
+            this.explode(this.baseXY);
+            this.state.start("Lose", [score, waveN]);       
+        }
     },    
     playerHitBase: function(bullet, base) { 
-        console.log("hit"); 
         bullet.kill();        
         baseHealth.health -= 5;
         this.updateBaseHealth();
+        
+        if(baseHealth.health <= 0) {
+            playerExplode.play("", 0, 0.7);
+            this.explode(this.baseXY);
+            this.state.start("Lose", [score, waveN]);
+        }
     },
     createPlayer: function() {
         this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, "player");
@@ -466,7 +478,7 @@ Tankk.Game.prototype = {
             gx = gx || 0;
             gy = gy || 0;
             
-            tankFire.play("", 0, 0.1);
+            eFire.play("", 0, 0.1);
             enemy.enemyNextFire = myGame.time.now + enemy.enemyFireRate;
 
             enemyBullet = this.enemyBullets.getFirstDead();
@@ -484,7 +496,7 @@ Tankk.Game.prototype = {
         explosion.anchor.setTo(0.5);
         explosion.scale.setTo(0.4);
         explosion.animations.add("boom");
-        explosion.animations.play("boom", 20, false, true);
+        explosion.animations.play("boom", 30, false, true);
     },
     updateScore: function() {
         scoreText.setText("Score = "+score);

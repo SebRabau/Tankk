@@ -56,6 +56,7 @@ Tankk.Preload.prototype = {
         this.load.audio("enemyExplode", "assets/Audio/EnemyExplosion.mp3");
         this.load.audio("playerExplode", "assets/Audio/PlayerExplosion.mp3");
         this.load.audio("tankFire", "assets/Audio/TankFire.mp3");
+        this.load.audio("eFire", "assets/Audio/egun.mp3");
     },
     create: function() {        
         this.state.start("MainMenu");

@@ -35,7 +35,7 @@ Tankk.MainMenu.prototype = {
             this.game.state.start("Game", [waveN = 1, waveE = 5]);
         }, this, 0, 2, 1, 0);
         EButton.anchor.setTo(0.5);
-        EButton.scale.setTo(0.07);
+        EButton.scale.setTo(0.3);
         
         /*
         MButton = this.add.button(this.game.world.centerX, this.game.world.centerY + 75, "menuButtons", function() {
@@ -73,6 +73,7 @@ Tankk.MainMenu.prototype = {
         //this.highestScore = this.highestScore || 0;
         
         this.highestScore = localStorage.getItem("Highscore") || 0;
+        this.HighscoreName = localStorage.getItem("HighscoreName") || "undefined";
         
         if(score > this.highestScore) {
             this.HighscoreName = prompt("You got a new High Score! Enter your name here: ");
