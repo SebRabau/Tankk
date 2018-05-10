@@ -239,7 +239,7 @@ Tankk.Game.prototype = {
 
         this.updateScore();
         this.updateWaveE();
-        //this.updateHealth();
+        this.updateHealth();
 
         //Check for wave end
         if(enemyCount == 0) {

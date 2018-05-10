@@ -50,7 +50,7 @@ Tankk.Preload.prototype = {
         this.load.spritesheet("baseHealth", "assets/BaseHealth.png", 200, 75, 21);
         
         //Load Audio (Formatting shown below)
-        //this.load.audio("MenuMusic", "assets/Chiptune_Throne_Room.mp3");
+        this.load.audio("MenuMusic", "assets/Audio/menuMusic.mp3");
         this.load.audio("tankIdle", "assets/Audio/tankIdle.mp3");
         this.load.audio("tankMove", "assets/Audio/tankMove.mp3");
         this.load.audio("enemyExplode", "assets/Audio/EnemyExplosion.mp3");

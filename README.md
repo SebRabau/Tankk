@@ -13,7 +13,7 @@ Recently a new update has been released for chrome whereby autoplaying will auto
 * Eastar.js - https://github.com/prettymuchbryce/easystarjs
 * Bullet Asset - https://opengameart.org/content/bullet-collection-1-m484
 * Player Health Bar - https://opengameart.org/content/health-bar
-https://www.freepik.com/free-photos-vectors/wings
+* Wings for base health - https://www.freepik.com/free-photos-vectors/wings
 
 ### Audio:
 * Player explosion - https://www.zapsplat.com/music/car-explosion-bomb-debris/
@@ -22,3 +22,4 @@ https://www.freepik.com/free-photos-vectors/wings
 * Engine sound - https://www.zapsplat.com/music/car-1950-mercury-255-ci-flathead-engine-idle/
 * Tank fire sound - https://www.zapsplat.com/music/grenade-explosion-debris-blast/
 * Enemy fire sound - https://www.zapsplat.com/music/gun-pistol-single-shot-silenced-walther-pp7/
+* Menu Music - "I Can Feel it Coming" Kevin MacLeod (incompetech.com) Licensed under Creative Commons: By Attribution 3.0 License http://creativecommons.org/licenses/by/3.0/
