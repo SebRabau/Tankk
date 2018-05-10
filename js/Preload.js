@@ -8,10 +8,7 @@ Tankk.Preload.prototype = {
         this.preloadBar.anchor.setTo(0.5); 
         this.load.setPreloadSprite(this.preloadBar);
         
-        //Load Sprites (Formatting shown below)
-        //this.load.tilemap("map", "maps/DeltaZone.json", null, Phaser.Tilemap.TILED_JSON);
-        //this.load.image("tiles", "maps/tiles.png");
-        //this.load.spritesheet("objectTiles", "maps/tiles.png", 32, 32, 48);
+        //Load Sprites
         
         //terrain
         this.load.tilemap("map", "assets/Tiles/TileMaps/Tankk-Map1.json", null, Phaser.Tilemap.TILED_JSON);
@@ -33,7 +30,6 @@ Tankk.Preload.prototype = {
         this.load.image("instructButton", "assets/Instructions.png");
         this.load.spritesheet("healthBar", "assets/healthBar.png", 378, 38, 12);
         this.load.image("playButton", "assets/playbutton.png");
-        //this.load.spritesheet("menuButtons", "assets/menuButtons.png", 200, 50, 12);
         this.load.spritesheet("explosion", "assets/Animations/Explosion2/1Single.png", 452, 512, 8);
         this.load.image("player", "assets/Tanks/ACS/Source/ACS_Base.png");
         this.load.image("turret", "assets/Tanks/ACS/Source/ACS_Tower.png");

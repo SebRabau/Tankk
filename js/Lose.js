@@ -7,9 +7,8 @@ Tankk.Lose.prototype = {
         score = score || 0;        
         
         this.highestScore = localStorage.getItem("Highscore") || 0;
-        //this.highestScore = this.highestScore || 0;
         
-        var splash = this.add.sprite(window.innerWidth/2, window.innerHeight/2 - 200, "logo"); //new lose screen required
+        var splash = this.add.sprite(window.innerWidth/2, window.innerHeight/2 - 200, "logo"); 
         splash.anchor.setTo(0.5, 0.5);
         splash.scale.setTo(0.25, 0.25);
         
@@ -26,13 +25,6 @@ Tankk.Lose.prototype = {
             align: "center"
         });
         waveText.anchor.setTo(0.5);
-        
-        /*
-        var restartButton = this.add.button(window.innerWidth/2, window.innerHeight/2 + 200, "PlayAgainBTN", function() {
-            this.game.sound.stopAll();
-            this.state.start("MainMenu", true, false, score);            
-        }, this, 1, 0, 2, 0);
-        restartButton.anchor.setTo(0.5);*/
         
         var homeButton = this.add.button(window.innerWidth/2 - 100, window.innerHeight/2 + 200, "home", function() {
             this.game.sound.stopAll();

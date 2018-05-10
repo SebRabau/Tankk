@@ -114,9 +114,7 @@ Tankk.Game.prototype = {
         //Pathfinding
         pathfinder = myGame.plugins.add(Phaser.Plugin.PathFinderPlugin);
         walkables = [45, 46];
-        //console.log(this.map.layers[0].data);
         pathfinder.setGrid(this.map.layers[1].data, walkables);
-        //this.findPathFrom(1, 4);
         
         //Base
         this.baseXY = this.game.add.sprite(this.game.world.width/2 - 10, this.game.world.height/2 + 110, "blank"); //enemy target for base
@@ -183,26 +181,13 @@ Tankk.Game.prototype = {
         
 
         //Collisions
-        myGame.physics.arcade.collide(myPlayer, this.walkArea);        
-        //myGame.physics.arcade.collide(myEnemies, this.walkArea);
+        myGame.physics.arcade.collide(myPlayer, this.walkArea);    
         myGame.physics.arcade.collide(myEnemies, myEnemies, this.enemyOnEnemy, null, this);
         myGame.physics.arcade.collide(myPlayer, myEnemies, this.enemyCollide, null, this);
         myGame.physics.arcade.collide(myBullets, myEnemies, this.killEnemy, null, this);
         myGame.physics.arcade.collide(myBullets, this.base, this.playerHitBase, null, this);
         myGame.physics.arcade.collide(enemyBullets, this.base, this.baseHit, null, this);
         myGame.physics.arcade.overlap(myPlayer, enemyBullets, this.playerHit, null, this);
-        //myGame.physics.arcade.overlap(myPlayer, myPills, this.collectPill, null, this);
-        
-        
-    },
-    createObjects: function() {
-        /*this.pills = this.game.add.physicsGroup();    
-        var one = this.game.add.sprite(255, 670, "pill");
-        var two = this.game.add.sprite(1230, 105, "pill");
-        var three = this.game.add.sprite(1357, 1228, "pill");
-        this.pills.add(one);
-        this.pills.add(two);
-        this.pills.add(three);*/
     },
     playerHit: function(player, bullet) {
         player.health -= 1;
@@ -213,6 +198,7 @@ Tankk.Game.prototype = {
         }), 5000;  
                    
         this.updateHealth();
+        
         //check for loss
         if(myPlayer.health <= 0) {
             playerExplode.play("", 0, 0.7);
@@ -268,19 +254,21 @@ Tankk.Game.prototype = {
         var A = this;
 
         enemyGrp.forEach(function(enemy) {
-            if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 200 && myGame.physics.arcade.distanceBetween(enemy, A.baseXY) > 240) {
+            if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 200 && myGame.physics.arcade.distanceBetween(enemy, A.baseXY) > 240) { //if far from base, close to player
                 enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
                 enemy.body.velocity.x = 0;
                 enemy.body.velocity.y = 0;
                 A.enemyFire(enemy, -50, -50, myPlayer);
                 A.enemyFire(enemy, 50, 50, myPlayer);
-            } else if(myGame.physics.arcade.distanceBetween(enemy, A.baseXY) < 230) {
+            } 
+            else if(myGame.physics.arcade.distanceBetween(enemy, A.baseXY) < 230) { //if close to base
                 enemy.rotation = myGame.physics.arcade.angleToXY(enemy, A.baseXY.x, A.baseXY.y) + 4.713; // 3Pi/2
                 enemy.body.velocity.x = 0;
                 enemy.body.velocity.y = 0;
                 A.enemyFire(enemy, -50, -50, A.baseXY);
                 A.enemyFire(enemy, 50, 50, A.baseXY);
-            } else {
+            } 
+            else { //if far from player and base, move normally
                 enemy.tileX = Math.floor(enemy.x/32) - 1;
                 enemy.tileY = Math.floor(enemy.y/32) - 1;
                 if (enemy.pathToBase.length !== 0) {
@@ -442,12 +430,10 @@ Tankk.Game.prototype = {
                     var rand = Math.round(Math.floor(Math.random() * 5));
                     //Randomly select spawn point
                     eMaker = egame.add.sprite(locX[rand], locY[rand], "enemy");
-                    egame.physics.arcade.enable(eMaker);
-                    //Calculate start tile from spawn point
-                    eMaker.tileX = Math.floor(locX[rand]/32) - 1;
-                    eMaker.tileY = Math.floor(locY[rand]/32) - 1;
-                    //Generate path from spawn point
-                    A.findPathFrom(eMaker.tileX, eMaker.tileY);
+                    egame.physics.arcade.enable(eMaker);                    
+                    eMaker.tileX = Math.floor(locX[rand]/32) - 1; //Calculate start tile from spawn point
+                    eMaker.tileY = Math.floor(locY[rand]/32) - 1;                    
+                    A.findPathFrom(eMaker.tileX, eMaker.tileY); //Generate path from spawn point
                     eMaker.pathToBase = path_ary;
                     eMaker.health = 60;
                     eMaker.speed = 90;
@@ -587,7 +573,7 @@ Tankk.Game.prototype = {
         //Randomly select destination tile
         var rand = Math.round(Math.floor(Math.random() * 4));
         pathfinder.setCallbackFunction(this.processPath);
-        pathfinder.preparePathCalculation([tilex, tiley], [destX[rand], destY[rand]]);//Path from enemy location to base
+        pathfinder.preparePathCalculation([tilex, tiley], [destX[rand], destY[rand]]); //Path from enemy location to base
         path = pathfinder.calculatePath();
     },
     processPath: function(path) {
