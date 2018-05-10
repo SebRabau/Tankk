@@ -2,7 +2,7 @@ var Tankk = Tankk || {};
 
 Tankk.Game = function(){};
 
-var fireRate = 800;
+var fireRate = 650;
 var nextFire = 0;
 var bullet;
 var enemyBullet;
@@ -30,6 +30,7 @@ var path_ary;
 
 Tankk.Game.prototype = {
     create: function() {
+        
         //Map and Layers
         this.map = this.game.add.tilemap("map");         
         this.map.addTilesetImage("DirtToRoad", "DirtToRoad");
@@ -121,6 +122,8 @@ Tankk.Game.prototype = {
         baseHealth.health = 100;
         baseHealth.frame = 0;
     },
+    
+    
     update: function() {
         //Update local variables
         myPlayer = this.player;
@@ -254,11 +257,12 @@ Tankk.Game.prototype = {
             this.updateWaveE();
         }
     },
+    
     updateEnemies: function(enemyGrp) {
         var A = this;
 
         enemyGrp.forEach(function(enemy) {
-            if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 150 && myGame.physics.arcade.distanceBetween(enemy, A.baseXY) > 220) {
+            if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 200 && myGame.physics.arcade.distanceBetween(enemy, A.baseXY) > 220) {
                 enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
                 enemy.body.velocity.x = 0;
                 enemy.body.velocity.y = 0;
@@ -403,7 +407,7 @@ Tankk.Game.prototype = {
         var egame = this.game;
         this.enemies = this.game.add.group();
         //Pairs of coordinates representing the 5 spawn points
-        var locX = [32, egame.world.width - 50, 70, 285, egame.world.width - 100];
+        var locX = [32, egame.world.width - 50, 70, 285, egame.world.width - 90];
         var locY = [128, 96, egame.world.height - 50, egame.world.height - 50, egame.world.height - 50];       
         var eMaker;
         var eTurret;
