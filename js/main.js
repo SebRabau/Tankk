@@ -1,3 +1,8 @@
+/* main.js initialises all of the states used in the game, 
+ * as well as creating the first instance on the game. 
+ * Finally it initiates the Boot state.
+ */
+
 var Tankk = Tankk || {}; //Use existing Tankk, or make new object
 Tankk.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, "");
 

@@ -1,11 +1,18 @@
+/* MainMenu.js creates all the user interactive buttons to play the game, 
+ * including a play button, mute button and instruction button.
+ * Also includes highscores stored via localstorage. 
+ * The update function is used to listen for clicks on the menu to hide the instructions
+ * if they have been displayed. Finally, if the play button is clicked, the Game state is initialised.
+ */
+
 Tankk.MainMenu = function(){};
 
-/*var music;
+var music;
 var instructions;
 var insButton;
-var EButton;
-var MButton;
-var HButton;*/
+var PButton;
+var muteButton;
+var unmuteButton;
 
 Tankk.MainMenu.prototype = {
     create: function() {
@@ -25,12 +32,12 @@ Tankk.MainMenu.prototype = {
         instructions.visible = 0; 
         
         //Buttons
-        EButton = this.add.button(this.game.world.centerX, this.game.world.centerY + 162, "playButton", function() {
+        PButton = this.add.button(this.game.world.centerX, this.game.world.centerY + 162, "playButton", function() {
             music.stop();
             this.game.state.start("Game", [waveN = 1, waveE = 5]);
         }, this, 0, 2, 1, 0);
-        EButton.anchor.setTo(0.5);
-        EButton.scale.setTo(0.3);
+        PButton.anchor.setTo(0.5);
+        PButton.scale.setTo(0.3);
         
         unmuteButton = this.add.button(this.game.world.centerX + 200 , this.game.world.centerY + 162, "nosound", function() {
             this.game.sound.mute = false;
@@ -57,7 +64,7 @@ Tankk.MainMenu.prototype = {
             instructions.visible = 1;
             this.game.world.bringToTop(instructions);
             insButton.inputEnabled = false;
-            EButton.inputEnabled = false;
+            PButton.inputEnabled = false;
             muteButton.inputEnabled = false;
         }, this, 6, 8, 7, 6);
         insButton.anchor.setTo(0.5);
@@ -80,7 +87,7 @@ Tankk.MainMenu.prototype = {
         if(this.game.input.activePointer.justPressed()) {
             instructions.visible = 0;
             insButton.inputEnabled = true;
-            EButton.inputEnabled = true;
+            PButton.inputEnabled = true;
             muteButton.inputEnabled = true;
         }
     }

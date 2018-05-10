@@ -1,3 +1,8 @@
+/* Preload.js loads in all assets used within the game, 
+ * including the map, audio, ui, and other main assets.
+ * Finally it initiates the MainMenu state.
+ */
+
 var Tankk = Tankk || {};
 
 Tankk.Preload = function(){};

@@ -1,3 +1,8 @@
+/* Lose.js shows a lose screen to the player upon a loss condition being met. 
+*  It shows the logo, replay and home buttons, and runs a function (checkHighScore) 
+*  that checks if a new high score has been achieved, and saves the new high-score to local storage.
+ */
+
 Tankk.Lose = function(){};
 
 Tankk.Lose.prototype = {

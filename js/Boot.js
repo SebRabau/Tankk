@@ -1,3 +1,8 @@
+/* Boot.js loads in the assets used in the preload screen, 
+ * as well as setting up the main window parameters and the physics system.
+ * Finally it initates the Preload state.
+ */
+
 var Tankk = Tankk || {};
  
 Tankk.Boot = function(){};

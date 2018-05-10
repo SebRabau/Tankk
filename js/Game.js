@@ -1,8 +1,83 @@
+/* For Game.js, the functions are as follows:
+ * Create:             Spawns and loads in the Tiled map data, creates layers and sets relevant collisions; 
+ *                     Creates our bullets, player and enemies via unction calls;
+ *                     Initialises and spawns our UI elements, including text, banner, health bars;
+ *                     Creates local variables for use within the script;
+ *                     Initialises Audio, Pathfinding and Base Attributes.
+ * 
+ * Update:             Updates local variables;
+ *                     Resets and controls player movement and rotation;
+ *                     Controls enemy tanks;
+ *                     Controls player audio;
+ *                     Handles all collisions.
+ *
+ * playerHit:          Handles collision between enemy bullets and the player by decreasing health,
+ *                     updating health bar, checking for player death and killing bullets from the screen.
+ *
+ * enemyCollide:       Handles collision between the player and an enemy, by deacreasing player health,
+ *                     detroying the enemy, checking for game loss condition, updating UI and initialises waves.
+ *
+ * updateEnemies:      Handles enemy movement for when the enemy is far from their target and the player, 
+ *                     close to the player and far from their target, and close to both target and player.
+ *                     The movement paths are generated using A* pathfinding algorithms (Easystar.js), and 
+ *                     movement is then controlled by comparing tile IDs between the enemies and their paths.
+ *
+ * enemyOnEnemy:       Generates a new Easystar path upon collision between enemies.
+ *
+ * killEnemy:          Handles collision between player bullets and enemies, updating their health, 
+ *                     handles animations and destroying the enemy, updates text, handles new wave 
+ *                     creation and kills the bullet.
+ *
+ * killBullet:         Handles collision between a bullet and an obstacle, killing the bullet.
+ *
+ * baseHit:            Handles collision between enemy bullets and the base, killing the bullet, 
+ *                     updating health variables and UI, and checks for loss condition.
+ *
+ * playerHitBase:      Handles collision between player bullets and the base, killing the bullet, 
+ *                     updating health variables and UI, and checks for loss condition.
+ * 
+ * createPlayer:       Adds the player to the world, creating and setting all player attributes, 
+ *                     and appending the player turret and bullet spawn location as children to the player.
+ *
+ * createBullets:      Creates the player bullet group and sets all bullet attributes.
+ *
+ * createEnemyBullets: Creates the enemy bullet group and sets all bullet attributes.
+ *
+ * createEnemies:      Creates some local variables, creates the 5 spawn points for in game, 
+ *                     then runs an iterative loop to create the right amount of enemies for each wave, 
+ *                     spawning the enemies at a random spawn point, enabling physics, generating their 
+ *                     individual A* paths, setting all attributes and appending their turrets and bullet 
+ *                     spawn points as children to the enemy, all with an 800 millisecond delay.
+ *
+ * fire:               Handles the firing of the player's bullets, controlling the player's fire rate, 
+ *                     audio and bullet spawn and target.
+ *
+ * enemyFire:          Handles the firing of the player's bullets, controlling the player's fire rate, 
+ *                     audio and bullet spawn and target, whilst also applying gravity to the bullets.
+ *
+ * explode:            Handles the animation for exploding obejcts within the game, 
+ *                     inclduing the player, enemies and base.
+ *
+ * updateScore:        Updates the score UI.
+ *
+ * updateWaveN:        Updates the wave number UI.
+ *
+ * updateWaveE:        Updates the enemy count UI.
+ *
+ * updateHealth:       Updates the UI for the player's health.
+ *
+ * updateBaseHealth:   Updates the UI for the base's health.
+ *
+ * findPathFrom:       Generates an Easystar path given enemy location parameters.
+ *
+ * processPath:        Processes the product of Eaststar.js.
+ */
+
 var Tankk = Tankk || {};
 
 Tankk.Game = function(){};
 
-var fireRate = 650;
+[var fireRate = 650;
 var nextFire = 0;
 var bullet;
 var enemyBullet;
@@ -27,7 +102,7 @@ var explosion;
 
 var pathfinder;
 var walkables;
-var path_ary;
+var path_ary;]
 
 Tankk.Game.prototype = {
     create: function() {
@@ -125,9 +200,7 @@ Tankk.Game.prototype = {
         baseHealth.scale.setTo(0.6);
         baseHealth.health = 100;
         baseHealth.frame = 0;
-    },
-    
-    
+    },    
     update: function() {
         //Update local variables
         myPlayer = this.player;
@@ -452,7 +525,7 @@ Tankk.Game.prototype = {
             }(i));            
         }
     },
-    fire:  function() {           
+    fire: function() {           
         if(myGame.time.now > nextFire) {
             tankFire.play("", 0, 0.3);
             nextFire = myGame.time.now + fireRate;
