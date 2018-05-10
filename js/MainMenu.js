@@ -69,7 +69,9 @@ Tankk.MainMenu.prototype = {
         
     },
     init: function(score) {
-        var score = score || 0;  
+        var score = score || 0;
+        this.highestScore = localStorage.getItem("Highscore") || 0;
+        this.HighscoreName = localStorage.getItem("HighscoreName") || "undefined";
     },
     update: function() {
         if(this.game.input.activePointer.justPressed()) {
