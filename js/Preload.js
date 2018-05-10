@@ -19,17 +19,24 @@ Tankk.Preload.prototype = {
         this.load.image("DirtToRoad", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-tilesets-environment/PNG/Tiles/_0008_DirtToRoad.png");
         this.load.image("RoadDecals", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-tilesets-environment/PNG/Tiles/_0005_RoadDecals.png");
         
-        //vehicles
+        //Broken Vehicles
         this.load.image("BrokenChopper", "assets/Tiles/TileAssets/WarZone Assets/tds-modern-soldiers-and-vehicles-sprites-2/Helicopter/Broken/BrokenBase.png");
         this.load.image("Humvee_Broken_05", "assets/Tiles/TileAssets/WarZone Assets/tds-pixel-art-modern-soldiers-and-vehicles-sprites/Humvee/Broken/Humvee_Broken_0005.png");
 
-        //other
+        //Menu & UI
         this.load.image("logo", "assets/logo.png");
         this.load.image("redo", "assets/redo.png");
         this.load.image("home", "assets/home.png");
         this.load.image("instructButton", "assets/Instructions.png");
         this.load.spritesheet("healthBar", "assets/healthBar.png", 378, 38, 12);
         this.load.image("playButton", "assets/playbutton.png");
+        this.load.spritesheet("baseHealth", "assets/BaseHealth.png", 200, 75, 21);
+        this.load.image("instructions", "assets/instructions2.png");
+        this.load.image("banner", "assets/banner.png");
+        this.load.image("sound", "assets/Sound.png");
+        this.load.image("nosound", "assets/NoSound.png");
+        
+        //Main Game Assets
         this.load.spritesheet("explosion", "assets/Animations/Explosion2/1Single.png", 452, 512, 8);
         this.load.image("player", "assets/Tanks/ACS/Source/ACS_Base.png");
         this.load.image("turret", "assets/Tanks/ACS/Source/ACS_Tower.png");
@@ -37,9 +44,6 @@ Tankk.Preload.prototype = {
         this.load.image("eTurret", "assets/Tanks/BTR/BTR_TowerC.png");
         this.load.image("blank", "assets/blank.png");
         this.load.image("bullet", "assets/Bullet.png");
-        this.load.spritesheet("baseHealth", "assets/BaseHealth.png", 200, 75, 21);
-        this.load.image("instructions", "assets/instructions2.png");
-        this.load.image("banner", "assets/banner.png");
         
         //Load Audio (Formatting shown below)
         this.load.audio("MenuMusic", "assets/Audio/menuMusic.mp3");
