@@ -41,6 +41,7 @@ Tankk.Game.prototype = {
         this.map.addTilesetImage("Humvee_Broken_05", "Humvee_Broken_05");    
         this.map.addTilesetImage("Base", "Base");   
         
+        this.enemyWalkArea = this.map.createLayer("EnemyWalkArea");
         this.walkArea = this.map.createLayer("WalkArea");
         this.dirt = this.map.createLayer("Dirt");
         this.track = this.map.createLayer("Roads");
@@ -109,7 +110,7 @@ Tankk.Game.prototype = {
         pathfinder = myGame.plugins.add(Phaser.Plugin.PathFinderPlugin);
         walkables = [45];
         //console.log(this.map.layers[0].data);
-        pathfinder.setGrid(this.map.layers[0].data, walkables);
+        pathfinder.setGrid(this.map.layers[1].data, walkables);
         //this.findPathFrom(1, 4);
 
         /*
@@ -517,8 +518,8 @@ Tankk.Game.prototype = {
         }
     },
     findPathFrom: function(tilex, tiley) {
-        var destX = [12, 17, 12, 17];
-        var destY = [15, 15, 20, 20];
+        var destX = [11, 18, 11, 18];
+        var destY = [14, 15, 21, 21];
         var rand = Math.round(Math.floor(Math.random() * 4));
         pathfinder.setCallbackFunction(this.processPath);
         pathfinder.preparePathCalculation([tilex, tiley], [destX[rand], destY[rand]]);
