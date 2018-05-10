@@ -42,7 +42,7 @@ Tankk.Lose.prototype = {
         var redoButton = this.add.button(window.innerWidth/2 + 50, window.innerHeight/2 + 200, "redo", function() {
             this.game.sound.stopAll();
             this.checkHighScore(score);
-            this.state.start("Game", true, false);            
+            this.state.start("Game", true, false, waveN = 1);            
         }, this, 1, 0, 2, 0);
         redoButton.anchor.setTo(0.3);
         redoButton.scale.setTo(0.3);
