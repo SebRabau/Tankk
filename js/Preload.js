@@ -44,6 +44,7 @@ Tankk.Preload.prototype = {
         this.load.image("eTurret", "assets/Tanks/BTR/BTR_TowerC.png");
         this.load.image("blank", "assets/blank.png");
         this.load.image("bullet", "assets/Bullet.png");
+        this.load.spritesheet("baseHealth", "assets/BaseHealth.png", 200, 78, 21);
         
         //Load Audio (Formatting shown below)
         //this.load.audio("MenuMusic", "assets/Chiptune_Throne_Room.mp3");

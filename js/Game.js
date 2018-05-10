@@ -22,6 +22,7 @@ var waveE;
 var enemyCount;
 var healthBar;
 var eblank;
+var baseHealth;
 
 var pathfinder;
 var walkables;
@@ -45,8 +46,6 @@ Tankk.Game.prototype = {
         this.track = this.map.createLayer("Roads");
         this.base = this.map.createLayer("Base");
         this.obstacle = this.map.createLayer("Obstacle");
-        
-        this.base.health = 100;
         
         this.map.setCollisionBetween(101, 101, true, "WalkArea");
         this.map.setCollisionBetween(300, 335, true, "Base");
@@ -110,6 +109,15 @@ Tankk.Game.prototype = {
         //console.log(this.map.layers[0].data);
         pathfinder.setGrid(this.map.layers[1].data, walkables);
         //this.findPathFrom(1, 4);
+        
+        this.baseXY = this.game.add.sprite(this.game.world.width/2 - 10, this.game.world.height/2 + 110, "blank"); //enemy target for base
+        this.baseXY.anchor.setTo(0.5);
+        
+        baseHealth = this.game.add.sprite(this.baseXY.x + 10, this.baseXY.y + 20, "baseHealth"); //enemy target for base
+        baseHealth.anchor.setTo(0.5);
+        baseHealth.scale.setTo(0.6);
+        baseHealth.health = 100;
+        baseHealth.frame = 0;
 
         /*
         music = myGame.add.audio("GameMusic");
@@ -241,7 +249,7 @@ Tankk.Game.prototype = {
 
         this.updateScore();
         this.updateWaveE();
-        this.updateHealth();
+        //this.updateHealth();
 
         //Check for wave end
         if(enemyCount == 0) {
@@ -265,14 +273,19 @@ Tankk.Game.prototype = {
         var A = this;
         
         enemyGrp.forEach(function(enemy) {
-            if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 150) {
+            if(myGame.physics.arcade.distanceBetween(enemy, myPlayer) < 150 && myGame.physics.arcade.distanceBetween(enemy, A.baseXY) > 220) {
                 enemy.rotation = myGame.physics.arcade.angleToXY(enemy, myPlayer.x, myPlayer.y) + 4.713; // 3Pi/2
                 enemy.body.velocity.x = 0;
                 enemy.body.velocity.y = 0;
-                A.enemyFire(enemy, -150, -150);
-                A.enemyFire(enemy, 150, 150);
-            } 
-            else {
+                A.enemyFire(enemy, -50, -50, myPlayer);
+                A.enemyFire(enemy, 50, 50, myPlayer);
+            } else if(myGame.physics.arcade.distanceBetween(enemy, A.baseXY) < 220) {
+                enemy.rotation = myGame.physics.arcade.angleToXY(enemy, A.baseXY.x, A.baseXY.y) + 4.713; // 3Pi/2
+                enemy.body.velocity.x = 0;
+                enemy.body.velocity.y = 0;
+                A.enemyFire(enemy, -50, -50, A.baseXY);
+                A.enemyFire(enemy, 50, 50, A.baseXY);
+            } else {
                 //myGame.physics.arcade.moveToXY(enemy, 480, 650, enemy.speed);
                 enemy.tileX = Math.floor(enemy.x/32) - 1;
                 enemy.tileY = Math.floor(enemy.y/32) - 1;
@@ -289,7 +302,7 @@ Tankk.Game.prototype = {
                             // calculate move direction
                             enemy.xDir = enemy.pathToBase[0].x - enemy.tileX;
                             enemy.yDir = enemy.pathToBase[0].y - enemy.tileY;
-                            console.log("Next: " + enemy.pathToBase[0].x + " " + enemy.pathToBase[0].y);
+                            //console.log("Next: " + enemy.pathToBase[0].x + " " + enemy.pathToBase[0].y);
                             //console.log("X Dir: " + enemy.xDir + " Y Dir: " + enemy.yDir);
                         } else {
                             // no more tiles in path so must be at final destination
@@ -300,22 +313,22 @@ Tankk.Game.prototype = {
                     } // end of getting next tile in path
                 
                 }
-            //console.log("Next X: " + enemy.pathToBase[0].x + " Next Y: " + enemy.pathToBase[0].y);
-            //myGame.physics.arcade.moveToXY(enemy, enemy.pathToBase[0].x, enemy.pathToBase[0].y, enemy.speed);
-            if (enemy.xDir === 1) {
-                enemy.angle = -90;
-            }
-            else if (enemy.xDir === -1) {
-                enemy.angle = 90;
-            }
-            else if (enemy.yDir === 1) {
-                enemy.angle = 0;
-            }
-            else if (enemy.yDir === -1) {
-                enemy.angle = 180;
-            }
-            enemy.body.velocity.x = enemy.xDir * enemy.speed;
-            enemy.body.velocity.y = enemy.yDir * enemy.speed;
+                //console.log("Next X: " + enemy.pathToBase[0].x + " Next Y: " + enemy.pathToBase[0].y);
+                //myGame.physics.arcade.moveToXY(enemy, enemy.pathToBase[0].x, enemy.pathToBase[0].y, enemy.speed);
+                if (enemy.xDir === 1) {
+                    enemy.angle = -90;
+                }
+                else if (enemy.xDir === -1) {
+                    enemy.angle = 90;
+                }
+                else if (enemy.yDir === 1) {
+                    enemy.angle = 0;
+                }
+                else if (enemy.yDir === -1) {
+                    enemy.angle = 180;
+                }
+                enemy.body.velocity.x = enemy.xDir * enemy.speed;
+                enemy.body.velocity.y = enemy.yDir * enemy.speed;
             }
         }); 
     },
@@ -355,9 +368,9 @@ Tankk.Game.prototype = {
         bullet.kill();
     },
     baseHit: function(bullet, base) {       
-        bullet.kill();
-        
-        this.base.health -= 0.05;
+        bullet.kill();        
+        baseHealth.health -= 0.1;
+        this.updateBaseHealth();
     },
     createPlayer: function() {
         this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, "player");
@@ -456,7 +469,7 @@ Tankk.Game.prototype = {
             myGame.physics.arcade.moveToPointer(bullet, 1500);
         }
     },
-    enemyFire:  function(enemy, gx, gy) {           
+    enemyFire:  function(enemy, gx, gy, target) {           
         if(myGame.time.now > enemy.enemyNextFire) {
             gx = gx || 0;
             gy = gy || 0;
@@ -469,8 +482,8 @@ Tankk.Game.prototype = {
             enemyBullet.scale.setTo(0.4);
             enemyBullet.body.gravity.set(gx, gy);
             enemyBullet.reset(enemy.eblank.world.x, enemy.eblank.world.y + this.game.rnd.between(-15, 15));
-            enemyBullet.rotation = myGame.physics.arcade.angleToXY(enemyBullet, this.player.x, this.player.y) + 1.57; //Pi/2
-            myGame.physics.arcade.moveToXY(enemyBullet, myPlayer.x, myPlayer.y, 400);
+            enemyBullet.rotation = myGame.physics.arcade.angleToXY(enemyBullet, target.x, target.y) + 1.57; //Pi/2
+            myGame.physics.arcade.moveToXY(enemyBullet, target.x, target.y, 400);
         }
     },
     explode: function(target) {
@@ -517,6 +530,51 @@ Tankk.Game.prototype = {
             healthBar.frame = 1;
         }
     },
+    updateBaseHealth: function() {        
+        if(baseHealth.health <= 100 && baseHealth.health > 95) {
+            baseHealth.frame = 0;
+        } else if(baseHealth.health <= 95 && baseHealth.health > 90) {
+            baseHealth.frame = 1;
+        } else if(baseHealth.health <= 90 && baseHealth.health > 85) {
+            baseHealth.frame = 2;
+        } else if(baseHealth.health <= 85 && baseHealth.health > 80) {
+            baseHealth.frame = 3;
+        } else if(baseHealth.health <= 80 && baseHealth.health > 75) {
+            baseHealth.frame = 4;
+        } else if(baseHealth.health <= 75 && baseHealth.health > 70) {
+            baseHealth.frame = 5;
+        } else if(baseHealth.health <= 70 && baseHealth.health > 65) {
+            baseHealth.frame = 6;
+        } else if(baseHealth.health <= 65 && baseHealth.health > 60) {
+            baseHealth.frame = 7;
+        } else if(baseHealth.health <= 60 && baseHealth.health > 55) {
+            baseHealth.frame = 8;
+        } else if(baseHealth.health <= 55 && baseHealth.health > 50) {
+            baseHealth.frame = 9;
+        } else if(baseHealth.health <= 50 && baseHealth.health > 45) {
+            baseHealth.frame = 10;
+        } else if(baseHealth.health <= 45 && baseHealth.health > 40) {
+            baseHealth.frame = 11;
+        } else if(baseHealth.health <= 40 && baseHealth.health > 35) {
+            baseHealth.frame = 12;
+        } else if(baseHealth.health <= 35 && baseHealth.health > 30) {
+            baseHealth.frame = 13;
+        } else if(baseHealth.health <= 30 && baseHealth.health > 25) {
+            baseHealth.frame = 14;
+        } else if(baseHealth.health <= 25 && baseHealth.health > 20) {
+            baseHealth.frame = 15;
+        } else if(baseHealth.health <= 20 && baseHealth.health > 15) {
+            baseHealth.frame = 16;
+        } else if(baseHealth.health <= 15 && baseHealth.health > 10) {
+            baseHealth.frame = 17;
+        } else if(baseHealth.health <= 10 && baseHealth.health > 5) {
+            baseHealth.frame = 18;
+        } else if(baseHealth.health <= 5 && baseHealth.health > 0) {
+            baseHealth.frame = 19;
+        } else if(baseHealth.health == 0) {
+            baseHealth.frame = 20;
+        }
+    },
     findPathFrom: function(tilex, tiley) {
         var destX = [11, 18, 11, 18];
         var destY = [14, 15, 21, 21];
@@ -530,7 +588,7 @@ Tankk.Game.prototype = {
         path_ary = path || [];
         //console.log("Process path path: " + path_ary);
         for (var i = 0, ilen = path_ary.length; i < ilen; i++) {
-            console.log(">>>" + path_ary[i].x + " " + path_ary[i].y);
+            //console.log(">>>" + path_ary[i].x + " " + path_ary[i].y);
         }
         return path_ary;
     }
