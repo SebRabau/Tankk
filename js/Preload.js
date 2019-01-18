@@ -29,7 +29,7 @@ Tankk.Preload.prototype = {
         this.load.image("Humvee_Broken_05", "assets/Tiles/TileAssets/WarZone Assets/tds-pixel-art-modern-soldiers-and-vehicles-sprites/Humvee/Broken/Humvee_Broken_0005.png");
 
         //Menu & UI
-        this.load.image("logo", "assets/logo.png");
+        this.load.image("logo", "assets/Logo.png");
         this.load.image("redo", "assets/redo.png");
         this.load.image("home", "assets/home.png");
         this.load.image("instructButton", "assets/Instructions.png");
@@ -37,7 +37,7 @@ Tankk.Preload.prototype = {
         this.load.image("playButton", "assets/playbutton.png");
         this.load.spritesheet("baseHealth", "assets/BaseHealth.png", 200, 75, 21);
         this.load.image("instructions", "assets/instructions2.png");
-        this.load.image("banner", "assets/banner.png");
+        this.load.image("banner", "assets/Banner.png");
         this.load.image("sound", "assets/Sound.png");
         this.load.image("nosound", "assets/NoSound.png");
         
